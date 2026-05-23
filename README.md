@@ -148,7 +148,7 @@ http://localhost:8080
 
 ## License
 
-This project—including all software, firmware, schematics, PCB layouts, and documentation—is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)** License.
+This project, including all software, firmware, schematics, PCB layouts, and documentation, is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)** License.
 
 Copyright (c) 2026 Joshua Felder (Chaos). All Rights Reserved.
 
