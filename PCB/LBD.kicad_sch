@@ -5544,7 +5544,7 @@
 		)
 		(uuid "f5b1d8de-ccb6-49b7-8b1b-0fbb55b62393")
 	)
-	(global_label "QSPI_SD0"
+	(hierarchical_label "QSPI_SD0"
 		(shape input)
 		(at 62.23 148.59 180)
 		(fields_autoplaced yes)
@@ -5555,7 +5555,7 @@
 			(justify right)
 		)
 		(uuid "0103e545-e656-4e0b-b2b5-84c8cc557199")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+		(property "Sheet References" "${INTERSHEET_REFS}"
 			(at 50.1734 148.59 0)
 			(hide yes)
 			(show_name no)
@@ -5565,366 +5565,6 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
-			)
-		)
-	)
-	(global_label "XOUT"
-		(shape input)
-		(at 62.23 173.99 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "0d234de1-f487-49c5-ae90-25aa654cd2ad")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 54.4067 173.99 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "QSPI_SD3"
-		(shape input)
-		(at 186.69 101.6 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "2585cba2-b861-4bd7-9bd9-1674412cba98")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 174.6334 101.6 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "QSPI_SD2"
-		(shape input)
-		(at 186.69 99.06 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "2d12d109-29e2-418c-abd5-4239f528be64")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 174.6334 99.06 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "QSPI_SD0"
-		(shape input)
-		(at 186.69 93.98 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "38b116db-b74f-44a6-ab17-597974fec354")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 174.6334 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "QSPI_SD3"
-		(shape input)
-		(at 62.23 156.21 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "45c5bef6-f854-469e-acf8-2f11bb247330")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 50.1734 156.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "QSPI_SS"
-		(shape input)
-		(at 186.69 73.66 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "5ef263b4-ac02-4320-9f41-c91d5f68ed90")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 175.9034 73.66 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "QSPI_SS"
-		(shape input)
-		(at 62.23 143.51 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "6f513d31-6efc-4d15-9184-52bf95f96411")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 51.4434 143.51 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "QSPI_SCLK"
-		(shape input)
-		(at 186.69 88.9 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "78812158-eb60-463c-bb07-5a1e75932075")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 173.5448 88.9 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "XOUT"
-		(shape input)
-		(at 252.73 146.05 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "8df10098-15f4-4243-b655-6c5e560d1d75")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 260.5533 146.05 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-	)
-	(global_label "QSPI_SD1"
-		(shape input)
-		(at 186.69 96.52 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "946fb9de-db5f-4fb9-84e2-de0e388d1c3b")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 174.6334 96.52 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "QSPI_SCLK"
-		(shape input)
-		(at 62.23 146.05 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "9ff7345d-ce97-4fc7-93a3-5bb345eed40b")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 49.0848 146.05 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "QSPI_SD2"
-		(shape input)
-		(at 62.23 153.67 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "be889bfd-0fa6-4047-8a46-c0413da35c7e")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 50.1734 153.67 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "XIN"
-		(shape input)
-		(at 62.23 163.83 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "d63de0bd-41fd-4b3d-86a2-1ab38235bb37")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 56.1 163.83 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "QSPI_SD1"
-		(shape input)
-		(at 62.23 151.13 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "dce8f537-160f-470b-b0c2-479f9cd79f06")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 50.1734 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "XIN"
-		(shape input)
-		(at 252.73 130.81 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "fedd36e7-9468-40bb-99a1-3144c5962515")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 258.86 130.81 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
 			)
 		)
 	)
@@ -5939,6 +5579,150 @@
 		)
 		(uuid "02dcb30f-5e2c-4f74-8ccd-5388d9ff2737")
 	)
+	(hierarchical_label "XOUT"
+		(shape input)
+		(at 62.23 173.99 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "0d234de1-f487-49c5-ae90-25aa654cd2ad")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 54.4067 173.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(hierarchical_label "QSPI_SD3"
+		(shape input)
+		(at 186.69 101.6 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2585cba2-b861-4bd7-9bd9-1674412cba98")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 174.6334 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(hierarchical_label "QSPI_SD2"
+		(shape input)
+		(at 186.69 99.06 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2d12d109-29e2-418c-abd5-4239f528be64")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 174.6334 99.06 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(hierarchical_label "QSPI_SD0"
+		(shape input)
+		(at 186.69 93.98 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "38b116db-b74f-44a6-ab17-597974fec354")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 174.6334 93.98 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(hierarchical_label "QSPI_SD3"
+		(shape input)
+		(at 62.23 156.21 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "45c5bef6-f854-469e-acf8-2f11bb247330")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 50.1734 156.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(hierarchical_label "QSPI_SS"
+		(shape input)
+		(at 186.69 73.66 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "5ef263b4-ac02-4320-9f41-c91d5f68ed90")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 175.9034 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
 	(hierarchical_label "USB_N"
 		(shape input)
 		(at 22.86 40.64 180)
@@ -5950,6 +5734,126 @@
 		)
 		(uuid "6c09bcb6-ca2e-433e-a4ee-261184230462")
 	)
+	(hierarchical_label "QSPI_SS"
+		(shape input)
+		(at 62.23 143.51 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6f513d31-6efc-4d15-9184-52bf95f96411")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 51.4434 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(hierarchical_label "QSPI_SCLK"
+		(shape input)
+		(at 186.69 88.9 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "78812158-eb60-463c-bb07-5a1e75932075")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 173.5448 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(hierarchical_label "XOUT"
+		(shape input)
+		(at 252.73 146.05 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8df10098-15f4-4243-b655-6c5e560d1d75")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 260.5533 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
+	(hierarchical_label "QSPI_SD1"
+		(shape input)
+		(at 186.69 96.52 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "946fb9de-db5f-4fb9-84e2-de0e388d1c3b")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 174.6334 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(hierarchical_label "QSPI_SCLK"
+		(shape input)
+		(at 62.23 146.05 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9ff7345d-ce97-4fc7-93a3-5bb345eed40b")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 49.0848 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
 	(hierarchical_label "USB_P"
 		(shape input)
 		(at 22.86 38.1 180)
@@ -5960,6 +5864,30 @@
 			(justify right)
 		)
 		(uuid "ae3ad879-ba58-4e31-92c3-717d18711450")
+	)
+	(hierarchical_label "QSPI_SD2"
+		(shape input)
+		(at 62.23 153.67 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "be889bfd-0fa6-4047-8a46-c0413da35c7e")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 50.1734 153.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
 	)
 	(hierarchical_label "USB_N"
 		(shape input)
@@ -5983,6 +5911,54 @@
 		)
 		(uuid "d596ae62-77ba-4a32-bb25-7d858b3852f1")
 	)
+	(hierarchical_label "XIN"
+		(shape input)
+		(at 62.23 163.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "d63de0bd-41fd-4b3d-86a2-1ab38235bb37")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 56.1 163.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(hierarchical_label "QSPI_SD1"
+		(shape input)
+		(at 62.23 151.13 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "dce8f537-160f-470b-b0c2-479f9cd79f06")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 50.1734 151.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
 	(hierarchical_label "MCU_RUN"
 		(shape input)
 		(at 49.53 125.73 180)
@@ -5993,6 +5969,30 @@
 			(justify right)
 		)
 		(uuid "ed15b845-deed-4776-a26e-17049a114b8d")
+	)
+	(hierarchical_label "XIN"
+		(shape input)
+		(at 252.73 130.81 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fedd36e7-9468-40bb-99a1-3144c5962515")
+		(property "Sheet References" "${INTERSHEET_REFS}"
+			(at 258.86 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 	)
 	(symbol
 		(lib_id "power:GND")
