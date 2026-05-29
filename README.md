@@ -2,6 +2,8 @@
 
 The **Lott-Bespitting Diode (LBD)** is a custom, high-intensity infrared (IR) blaster built on the RP2040 microcontroller. It uses a high-output, MOSFET-driven IR array to transmit standard 38kHz infrared signals (like the NEC protocol) directly from a browser interface over a USB serial connection.
 
+Named for Mrs. Lott, the worst teacher I ever had, and her classroom projector.
+
 ---
 
 # 1. System Architecture Overview
