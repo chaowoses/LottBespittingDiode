@@ -6,6 +6,7 @@ let selectedRemoteId = null;
 let logBarOpen = false;
 let logUnread = 0;
 let txHistory = JSON.parse(localStorage.getItem('lbd_history') || '[]'); // [{id,ts,label,addr,cmd,proto}]
+let remoteCardExpanded = {};
 
 let library = JSON.parse(localStorage.getItem('lbd_library') || '[]');
 let nextId = parseInt(localStorage.getItem('lbd_nextid') || '1');
@@ -17,6 +18,45 @@ let libraryCurrentFolderId = null;
 let libraryBackStack = [];
 if (!sidebarFolderOpen || typeof sidebarFolderOpen !== 'object' || Array.isArray(sidebarFolderOpen)) sidebarFolderOpen = {};
 if (!libraryFolderOpen || typeof libraryFolderOpen !== 'object' || Array.isArray(libraryFolderOpen)) libraryFolderOpen = {};
+
+const NAME_LIMITS = { folder: 32, remote: 32, button: 24 };
+
+function clampName(value, limit) {
+  const text = String(value ?? '').trim();
+  if (!text) return '';
+  return text.length > limit ? text.slice(0, limit).trimEnd() : text;
+}
+
+function limitName(value, type) {
+  return clampName(value, NAME_LIMITS[type] || NAME_LIMITS.remote);
+}
+
+function normalizeLibraryNameLimits() {
+  let changed = false;
+  library.forEach(item => {
+    if (item.type === 'folder') {
+      const nextName = limitName(item.name, 'folder');
+      if (nextName !== item.name) {
+        item.name = nextName;
+        changed = true;
+      }
+    } else if (item.type === 'remote') {
+      const nextName = limitName(item.name, 'remote');
+      if (nextName !== item.name) {
+        item.name = nextName;
+        changed = true;
+      }
+      (item.buttons || []).forEach(button => {
+        const nextButtonName = limitName(button.name, 'button');
+        if (nextButtonName !== button.name) {
+          button.name = nextButtonName;
+          changed = true;
+        }
+      });
+    }
+  });
+  if (changed) saveLib();
+}
 
 function saveFolderOpenState() {
   localStorage.setItem('lbd_sidebar_open', JSON.stringify(sidebarFolderOpen));
@@ -141,6 +181,12 @@ function openRemoteInLibrary(remoteId) {
   if (currentTab === 'library') renderLibraryPane();
   else switchTab('library');
 }
+function closeRemoteView(e) {
+  if (e) e.stopPropagation();
+  selectedRemoteId = null;
+  if (currentTab === 'library') renderLibraryPane();
+  else switchTab('library');
+}
 function syncLibraryViewTabs() {
   const overview = document.getElementById('libraryView-overview');
   const favorites = document.getElementById('libraryView-favorites');
@@ -159,7 +205,7 @@ function getUniqueFolderName(baseName, parentId=null) {
   return name;
 }
 function createFolderEntry(name, parentId=null, open=false) {
-  const folder = { type:'folder', id:genId(), name, parentId, open };
+  const folder = { type:'folder', id:genId(), name: limitName(name, 'folder'), parentId, open };
   library.push(folder);
   return folder;
 }
@@ -208,7 +254,7 @@ async function connect() {
     const btn = document.getElementById('connectBtn');
     btn.textContent = 'Disconnect'; btn.className = 'disconnect';
     appendLog('Serial connection established.', 'sys');
-    validateInputs(); renderHistory();
+    refreshConnectedViews();
     listenToStream();
   } catch(e) { appendLog('Connection failed: ' + e, 'err'); }
 }
@@ -293,6 +339,24 @@ function validateInputs() {
   document.getElementById('addressInput').classList.toggle('err', !va && addr.length > 0);
   document.getElementById('commandInput').classList.toggle('err', !vc && cmd.length  > 0);
   document.getElementById('transmitBtn').disabled = !(va && vc && writer);
+}
+
+function refreshConnectedViews() {
+  validateInputs();
+  renderHistory();
+  if (currentTab === 'library') {
+    renderLibraryPane();
+    return;
+  }
+  if (currentTab === 'irdb') {
+    if (irdbData) {
+      renderIRDBTree();
+      if (irdbSelectedPath) {
+        const selectedFile = (irdbData || []).find(node => node.path === irdbSelectedPath);
+        if (selectedFile) loadIRDBFile(selectedFile);
+      }
+    }
+  }
 }
 
 // ===== NEC ENCODE =====
@@ -406,13 +470,13 @@ function saveManualSignal() {
   const addr = document.getElementById('addressInput').value.trim();
   const cmd  = document.getElementById('commandInput').value.trim();
   if (!validateHex(addr)||!validateHex(cmd)) { appendLog('Fix hex inputs first.','err'); return; }
-  const name = document.getElementById('saveNameInput').value.trim();
+  const name = limitName(document.getElementById('saveNameInput').value, 'button');
   const desc = document.getElementById('saveDescInput').value.trim();
   const remSel = document.getElementById('saveRemoteSelect').value;
   let remote;
   if (remSel === '__new__') {
     if (!validateSaveRemoteName()) return;
-    const rname = document.getElementById('saveNewRemoteName').value.trim();
+    const rname = limitName(document.getElementById('saveNewRemoteName').value, 'remote');
     const fid = document.getElementById('saveNewRemoteFolderSelect').value || null;
     remote = { type:'remote', id:genId(), name:rname, folderId: fid ? parseInt(fid) : null, buttons:[], favorite:false };
     library.push(remote);
@@ -443,7 +507,7 @@ function parseIRFile(text) {
     else if (cur && l.startsWith('command:')) { cur.cmd  = l.slice(8).trim().split(/\s+/).slice(0,4).join(' '); }
   }
   if (cur && cur.addr && cur.cmd) buttons.push(cur);
-  return buttons.filter(b => validateHex(b.addr) && validateHex(b.cmd)).map(b => ({ ...b, id:genId(), desc:'', favorite:false }));
+  return buttons.filter(b => validateHex(b.addr) && validateHex(b.cmd)).map(b => ({ ...b, name: limitName(b.name, 'button'), id:genId(), desc:'', favorite:false }));
 }
 function importIRFiles(files, folderId=null, inputEl=null) {
   const irFiles = Array.from(files).filter(f => f.name.toLowerCase().endsWith('.ir'));
@@ -485,7 +549,7 @@ function importIRFiles(files, folderId=null, inputEl=null) {
         finalize();
         return;
       }
-      library.push({ type:'remote', id:genId(), name:rname, folderId: importRoot.id, buttons, favorite:false });
+      library.push({ type:'remote', id:genId(), name: limitName(rname, 'remote'), folderId: importRoot.id, buttons, favorite:false });
       imported++;
       finalize();
     };
@@ -551,7 +615,7 @@ function importFolder(files, inputEl=null) {
       const rname = f.name.replace('.ir','');
       const buttons = parseIRFile(ev.target.result);
       if (!buttons.length) { skipped++; finalize(); return; }
-      library.push({ type:'remote', id:genId(), name:rname, folderId, buttons, favorite:false });
+       library.push({ type:'remote', id:genId(), name: limitName(rname, 'remote'), folderId, buttons, favorite:false });
       imported++;
       finalize();
     };
@@ -727,7 +791,7 @@ function renderTreeLevel(container, parentId, depth, query='') {
       <i class="ti ti-grip-vertical drag-handle" title="Drag to move" onmousedown="startDrag(event,'folder',${folder.id})"></i>
       <i class="ti ti-chevron-right ${isOpen?'open':''}"></i>
       <i class="ti ${isOpen?'ti-folder-open':'ti-folder'}"></i>
-      <span class="tree-label">${escHtml(folder.name)}</span>
+      <span class="tree-label" title="${escAttr(folder.name)}">${escHtml(folder.name)}</span>
       <span class="tree-actions">
         <button class="tree-act" title="Rename" onclick="openRenameModal(event,'folder',${folder.id})"><i class="ti ti-pencil"></i></button>
         <button class="tree-act" title="New subfolder" onclick="openNewFolderModal(${folder.id},event)"><i class="ti ti-folder-plus"></i></button>
@@ -753,7 +817,7 @@ function renderTreeLevel(container, parentId, depth, query='') {
     row.innerHTML = `
       <i class="ti ti-grip-vertical drag-handle" title="Drag to move" onmousedown="startDrag(event,'remote',${remote.id})"></i>
       <i class="ti ti-device-remote"></i>
-      <span class="tree-label">${escHtml(remote.name)}</span>
+      <span class="tree-label" title="${escAttr(remote.name)}">${escHtml(remote.name)}</span>
       <span class="tree-actions">
         <button class="tree-act" title="Rename" onclick="openRenameModal(event,'remote',${remote.id})"><i class="ti ti-pencil"></i></button>
         <button class="tree-act del" title="Delete" onclick="openDeleteModal(event,'remote',${remote.id})"><i class="ti ti-trash"></i></button>
@@ -859,7 +923,7 @@ function renderFavoritesView(el) {
     row.innerHTML = `
       <div class="signal-box-header">
         <span class="signal-box-name">${escHtml(btn.name)}</span>
-        <button class="btn btn-ghost btn-sm btn-icon" title="Remove from favorites" onclick="toggleFavoriteButton(${btn.id},${remote.id},event)" style="color:var(--accent2);"><i class="ti ti-star-filled"></i></button>
+        <button class="btn btn-ghost btn-sm btn-icon" title="Remove from favorites" onclick="toggleFavoriteButton(${btn.id},${remote.id},event)" style="color:var(--accent);"><i class="ti ti-star-filled"></i></button>
       </div>
       <div class="signal-meta">
         <span class="signal-chip proto"><i class="ti ti-device-remote" style="font-size:9px;vertical-align:-1px;"></i> ${escHtml(remote.name)}</span>
@@ -992,7 +1056,7 @@ function appendLibraryFolderCard(container, folder) {
     <div class="library-entry-top">
       <div class="library-entry-main">
         <i class="ti ti-folder"></i>
-        <span class="library-entry-name">${escHtml(folder.name)}</span>
+        <span class="library-entry-name" title="${escAttr(folder.name)}">${escHtml(folder.name)}</span>
       </div>
       <div class="library-entry-actions">
         <button class="btn btn-ghost btn-sm btn-icon" title="Rename folder" onclick="openRenameModal(event,'folder',${folder.id})"><i class="ti ti-pencil"></i></button>
@@ -1005,31 +1069,53 @@ function appendLibraryFolderCard(container, folder) {
 }
 function appendRemoteCard(container, remote, showMainActions=false) {
   const isFav = !!remote.favorite;
+  const isExpanded = !!remoteCardExpanded[String(remote.id)];
+  const previewLimit = 4;
+  const previewButtons = isExpanded ? (remote.buttons || []) : (remote.buttons || []).slice(0, previewLimit);
+  const hiddenCount = Math.max((remote.buttons || []).length - previewButtons.length, 0);
   const card = document.createElement('div');
-  card.className = showMainActions ? 'remote-card remote-card-grid' : 'remote-card';
+  card.className = `remote-card${showMainActions ? ' remote-card-grid' : ''}${isExpanded ? ' expanded' : ''}`;
   const actionButtons = showMainActions
     ? `
-      <button class="btn btn-ghost btn-sm btn-icon" title="${isFav ? 'Remove remote from favorites' : 'Add remote to favorites'}" onclick="toggleFavoriteRemote(${remote.id},event)" style="color:${isFav ? 'var(--accent2)' : 'var(--text3)'}"><i class="ti ${isFav ? 'ti-star-filled' : 'ti-star'}"></i></button>
+      <button class="btn btn-ghost btn-sm btn-icon" title="${isFav ? 'Remove remote from favorites' : 'Add remote to favorites'}" onclick="toggleFavoriteRemote(${remote.id},event)" style="color:${isFav ? 'var(--accent)' : 'var(--text3)'}"><i class="ti ${isFav ? 'ti-star-filled' : 'ti-star'}"></i></button>
       <button class="btn btn-ghost btn-sm btn-icon" title="Rename remote" onclick="openRenameModal(event,'remote',${remote.id})"><i class="ti ti-pencil"></i></button>
       <button class="btn btn-ghost btn-sm btn-icon" title="Delete remote" onclick="openDeleteModal(event,'remote',${remote.id})"><i class="ti ti-trash"></i></button>`
     : `
-      <button class="btn btn-ghost btn-sm btn-icon" title="${isFav ? 'Remove remote from favorites' : 'Add remote to favorites'}" onclick="toggleFavoriteRemote(${remote.id},event)" style="color:${isFav ? 'var(--accent2)' : 'var(--text3)'}"><i class="ti ${isFav ? 'ti-star-filled' : 'ti-star'}"></i></button>`;
+      <button class="btn btn-ghost btn-sm btn-icon" title="${isFav ? 'Remove remote from favorites' : 'Add remote to favorites'}" onclick="toggleFavoriteRemote(${remote.id},event)" style="color:${isFav ? 'var(--accent)' : 'var(--text3)'}"><i class="ti ${isFav ? 'ti-star-filled' : 'ti-star'}"></i></button>`;
   card.innerHTML = `
-    <div class="remote-card-hdr">
-      <i class="ti ti-device-remote" style="color:var(--accent2);font-size:15px;flex-shrink:0;"></i>
-      <span class="remote-card-name">${escHtml(remote.name)}</span>
-      ${actionButtons}
-      <span class="remote-card-count">${remote.buttons.length} btn${remote.buttons.length!==1?'s':''}</span>
+    <div class="remote-card-head">
+      <div class="remote-card-title">
+        <i class="ti ti-device-remote remote-card-icon" aria-hidden="true"></i>
+        <div class="remote-card-copy">
+          <span class="remote-card-name" title="${escHtml(remote.name)}">${escHtml(remote.name)}</span>
+          <span class="remote-card-meta">Open remote</span>
+        </div>
+      </div>
+      <div class="remote-card-actions">
+        ${actionButtons}
+      </div>
     </div>
-    <div class="chip-row">
-      ${remote.buttons.slice(0,10).map(b=>`<span class="signal-chip">${escHtml(b.name)}</span>`).join('')}
-      ${remote.buttons.length>10 ? `<span class="signal-chip" style="color:var(--text3);">+${remote.buttons.length-10}</span>` : ''}
+    <div class="remote-card-preview">
+      <div class="chip-row remote-card-chiprow">
+        ${previewButtons.map(b=>`<span class="signal-chip">${escHtml(b.name)}</span>`).join('')}
+        ${hiddenCount > 0 ? `<span class="signal-chip remote-card-hidden">+${hiddenCount} more</span>` : ''}
+        ${!remote.buttons.length ? `<span class="signal-chip remote-card-empty">No buttons</span>` : ''}
+      </div>
+      <div class="remote-card-footer">
+        ${remote.buttons.length > previewLimit ? `<button class="btn btn-sm btn-ghost remote-card-more" onclick="toggleRemoteCardDetails(${remote.id},event)"><i class="ti ti-${isExpanded ? 'chevron-up' : 'chevron-down'}"></i> ${isExpanded ? 'Show less' : 'Show more'}</button>` : '<span></span>'}
+        <span class="remote-card-count">${remote.buttons.length} button${remote.buttons.length!==1?'s':''}</span>
+      </div>
     </div>`;
   card.onclick = () => openRemoteInLibrary(remote.id);
   container.appendChild(card);
 }
 function appendLibraryRemoteCard(container, remote) {
   appendRemoteCard(container, remote, true);
+}
+function toggleRemoteCardDetails(remoteId, e) {
+  if (e) e.stopPropagation();
+  remoteCardExpanded[String(remoteId)] = !remoteCardExpanded[String(remoteId)];
+  if (currentTab === 'library') renderLibraryPane();
 }
 
 // ===== REMOTE VIEW =====
@@ -1070,8 +1156,11 @@ function renderRemoteView(el, remote) {
   const hdr = document.createElement('div');
   hdr.className = 'section-hdr';
   hdr.innerHTML = `
-    <span class="section-title"><i class="ti ti-device-remote" style="vertical-align:-2px;margin-right:6px;"></i>${escHtml(remote.name)}</span>
-    <div style="display:flex;gap:6px;">
+    <div class="remote-view-left">
+      <button class="btn btn-sm btn-ghost" onclick="closeRemoteView(event)"><i class="ti ti-arrow-left"></i> Back</button>
+      <span class="remote-view-title" title="${escAttr(remote.name)}"><i class="ti ti-device-remote" style="vertical-align:-2px;"></i><span class="remote-view-title-text">${escHtml(remote.name)}</span></span>
+    </div>
+    <div class="remote-view-actions">
       <button class="btn btn-sm ${remote.favorite ? 'btn-green' : ''}" title="${remote.favorite ? 'Unfavorite Remote' : 'Favorite Remote'}" onclick="toggleFavoriteRemote(${remote.id},event)"><i class="ti ${remote.favorite ? 'ti-star-filled' : 'ti-star'}"></i></button>
       <button class="btn btn-sm" onclick="openRenameModal(event,'remote',${remote.id})"><i class="ti ti-pencil"></i></button>
       <button class="btn btn-sm" onclick="showAddButtonBox(${remote.id})"><i class="ti ti-plus"></i> Add Button</button>
@@ -1098,14 +1187,14 @@ function buildSignalBox(btn, remoteId) {
   box.id = 'sigbox-' + btn.id;
   box.innerHTML = `
     <div class="signal-box-header">
-      <span class="signal-box-name" id="sname-${btn.id}">${escHtml(btn.name)}</span>
-      <button class="btn btn-ghost btn-sm btn-icon" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}" onclick="toggleFavoriteButton(${btn.id},${remoteId},event)" style="color:${isFav ? 'var(--accent2)' : 'var(--text3)'}"><i class="ti ${isFav ? 'ti-star-filled' : 'ti-star'}"></i></button>
+      <span class="signal-box-name" id="sname-${btn.id}" title="${escAttr(btn.name)}">${escHtml(btn.name)}</span>
+      <button class="btn btn-ghost btn-sm btn-icon" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}" onclick="toggleFavoriteButton(${btn.id},${remoteId},event)" style="color:${isFav ? 'var(--accent)' : 'var(--text3)'}"><i class="ti ${isFav ? 'ti-star-filled' : 'ti-star'}"></i></button>
       <button class="btn btn-ghost btn-sm btn-icon" title="Rename" onclick="toggleEditName(${btn.id},${remoteId})"><i class="ti ti-pencil"></i></button>
       <button class="btn btn-ghost btn-sm btn-icon" title="Delete" onclick="deleteButton(${btn.id},${remoteId})" style="color:var(--text3);" onmouseenter="this.style.color='var(--red)'" onmouseleave="this.style.color='var(--text3)'"><i class="ti ti-trash"></i></button>
     </div>
     <div id="sname-edit-${btn.id}" style="display:none;margin-bottom:8px;">
       <div style="display:flex;gap:6px;align-items:center;">
-        <input type="text" id="sname-inp-${btn.id}" value="${escAttr(btn.name)}" style="width:200px;" oninput="validateSigName(${btn.id})" onkeydown="if(event.key==='Enter')confirmEditName(${btn.id},${remoteId})">
+        <input type="text" id="sname-inp-${btn.id}" maxlength="24" value="${escAttr(btn.name)}" style="width:200px;" oninput="validateSigName(${btn.id})" onkeydown="if(event.key==='Enter')confirmEditName(${btn.id},${remoteId})">
         <button class="btn btn-green btn-sm" onclick="confirmEditName(${btn.id},${remoteId})"><i class="ti ti-check"></i></button>
         <button class="btn btn-sm" onclick="toggleEditName(${btn.id},${remoteId})"><i class="ti ti-x"></i></button>
       </div>
@@ -1143,7 +1232,7 @@ function showAddButtonBox(remoteId) {
     <div class="row2">
       <div class="field-group">
         <label class="field-label">Button Name</label>
-        <input type="text" id="abn-name-${remoteId}" placeholder="e.g. Power" oninput="validateAddBtn(${remoteId})">
+        <input type="text" id="abn-name-${remoteId}" maxlength="24" placeholder="e.g. Power" oninput="validateAddBtn(${remoteId})">
         <div class="field-err" id="abn-name-err-${remoteId}"></div>
       </div>
       <div class="field-group">
@@ -1181,7 +1270,7 @@ function validateAddBtn(remoteId) {
   document.getElementById('abn-create-'+remoteId).disabled = !(vn&&va&&vc);
 }
 function confirmAddButton(remoteId) {
-  const name = document.getElementById('abn-name-'+remoteId).value.trim();
+  const name = limitName(document.getElementById('abn-name-'+remoteId).value, 'button');
   const addr = document.getElementById('abn-addr-'+remoteId).value.trim();
   const cmd  = document.getElementById('abn-cmd-'+remoteId).value.trim();
   const desc = document.getElementById('abn-desc-'+remoteId).value.trim();
@@ -1227,10 +1316,11 @@ function validateSigName(btnId) {
 }
 function confirmEditName(btnId, remoteId) {
   if (!validateSigName(btnId)) return;
-  const v = document.getElementById('sname-inp-'+btnId).value.trim();
+  const v = limitName(document.getElementById('sname-inp-'+btnId).value, 'button');
   library.find(r=>r.id===remoteId).buttons.find(b=>b.id===btnId).name = v;
   saveLib();
   document.getElementById('sname-'+btnId).textContent = v;
+  document.getElementById('sname-'+btnId).title = v;
   document.getElementById('sname-edit-'+btnId).style.display = 'none';
 }
 function toggleEditDesc(btnId, remoteId) {
@@ -1280,7 +1370,7 @@ function validateFolderName() {
 }
 function confirmFolder() {
   if (!validateFolderName()) return;
-  library.push({ type:'folder', id:genId(), name:document.getElementById('folderNameInput').value.trim(), parentId:_folderParentId, open:false });
+  library.push({ type:'folder', id:genId(), name:limitName(document.getElementById('folderNameInput').value, 'folder'), parentId:_folderParentId, open:false });
   saveLib(); closeFolderModal(); renderSidebarTree();
 }
 
@@ -1304,7 +1394,7 @@ function validateRenameInput() {
 }
 function confirmRename() {
   if (!validateRenameInput()) return;
-  library.find(x=>x.id===_renameId).name = document.getElementById('renameInput').value.trim();
+  library.find(x=>x.id===_renameId).name = limitName(document.getElementById('renameInput').value, _renameType === 'folder' ? 'folder' : 'remote');
   saveLib(); closeRenameModal(); renderSidebarTree();
   if (currentTab==='library') renderLibraryPane();
 }
@@ -1451,7 +1541,7 @@ function renderIRDBLevel(container, node, path, depth, search) {
   files.forEach(f=>{
     const isSel=irdbSelectedPath===f.path;
     const row=document.createElement('div');
-    row.style.cssText=`padding:5px 8px 5px ${8+depth*12+12}px;display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:11px;transition:background 0.1s;${isSel?'background:var(--accent-dim);color:var(--accent2);':'color:var(--text2);'}`;
+    row.style.cssText=`padding:5px 8px 5px ${8+depth*12+12}px;display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--mono);font-size:11px;transition:background 0.1s;${isSel?'background:var(--accent-dim);color:var(--text);':'color:var(--text2);'}`;
     const remoteName = f.name.replace('.ir','');
     row.innerHTML=`
       <i class="ti ti-device-remote" style="font-size:12px;flex-shrink:0;"></i>
@@ -1487,9 +1577,9 @@ function renderIRDBRemote(el, file, buttons) {
   const hdr=document.createElement('div');
   hdr.style.cssText='display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:12px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);';
   hdr.innerHTML=`
-    <i class="ti ti-device-remote" style="color:var(--accent2);font-size:18px;flex-shrink:0;"></i>
-    <div style="flex:1;">
-      <div style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;">${escHtml(name)}</div>
+    <i class="ti ti-device-remote" style="color:var(--accent);font-size:18px;flex-shrink:0;"></i>
+    <div style="flex:1;min-width:0;">
+      <div title="${escAttr(name)}" style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escHtml(name)}</div>
       <div style="font-family:var(--mono);font-size:10px;color:var(--text3);">${escHtml(file.path)} &middot; ${buttons.length} button${buttons.length!==1?'s':''}</div>
     </div>
     <button class="btn btn-sm" onclick="openIRDBRemoteModal('${escAttr(file.path)}','${escAttr(name)}',this,event)"><i class="ti ti-download"></i> Import</button>`;
@@ -1504,7 +1594,7 @@ function renderIRDBRemote(el, file, buttons) {
     const box=document.createElement('div');
     box.className='irdb-detail-btn-box';
     box.innerHTML=`
-      <div class="irdb-detail-btn-name">${escHtml(btn.name)}</div>
+      <div class="irdb-detail-btn-name" title="${escAttr(btn.name)}">${escHtml(btn.name)}</div>
       <div class="signal-meta" style="margin-bottom:8px;">
         <span class="signal-chip addr"><i class="ti ti-map-pin" style="font-size:9px;"></i> ${escHtml(btn.addr||'—')}</span>
         <span class="signal-chip cmd"><i class="ti ti-terminal" style="font-size:9px;"></i> ${escHtml(btn.cmd||'—')}</span>
@@ -1649,7 +1739,7 @@ async function confirmIRDBFolderImport() {
         }
         else parentId=folder.id;
       }
-      library.push({type:'remote',id:genId(),name:remoteName,folderId:parentId,buttons,favorite:false});
+      library.push({type:'remote',id:genId(),name:limitName(remoteName, 'remote'),folderId:parentId,buttons,favorite:false});
       imported++;
     } catch(e){ skipped++; }
   }
@@ -1666,6 +1756,7 @@ function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&l
 function escAttr(s){ return String(s||'').replace(/'/g,'&#39;').replace(/"/g,'&quot;'); }
 
 // ===== INIT =====
+normalizeLibraryNameLimits();
 switchTab('library');
 renderSidebarTree();
 validateInputs();

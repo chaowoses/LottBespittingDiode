@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LBD Controller</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,6 +17,7 @@
 <div class="topbar">
   <div class="logo"><div class="logo-dot"></div>LBD</div>
   <div class="topbar-sep"></div>
+  <a class="btn btn-ghost topbar-home" href="index.html"><i class="ti ti-home"></i> Home</a>
   <button id="connectBtn" onclick="toggleConnection()">Connect</button>
   <span id="deviceName" class="device-name"></span>
   <div class="topbar-right">
@@ -125,7 +127,7 @@
           <div class="save-form" id="saveForm">
             <div class="field-group">
               <label class="field-label">Button Name</label>
-              <input type="text" id="saveNameInput" placeholder="e.g. Power" oninput="validateSaveFormName()">
+              <input type="text" id="saveNameInput" maxlength="24" placeholder="e.g. Power" oninput="validateSaveFormName()">
               <div class="field-err" id="saveNameErr"></div>
             </div>
             <div class="field-group">
@@ -141,7 +143,7 @@
             <div id="saveNewRemoteFields" style="display:none;">
               <div class="field-group">
                 <label class="field-label">Remote Name</label>
-                <input type="text" id="saveNewRemoteName" placeholder="e.g. Samsung TV" oninput="validateSaveRemoteName()">
+                <input type="text" id="saveNewRemoteName" maxlength="32" placeholder="e.g. Samsung TV" oninput="validateSaveRemoteName()">
                 <div class="field-err" id="saveNewRemoteNameErr"></div>
               </div>
               <div class="field-group">
@@ -186,7 +188,7 @@
     <div class="modal-title"><i class="ti ti-folder-plus"></i><span id="folderModalTitle">New Folder</span></div>
     <div class="field-group">
       <label class="field-label">Folder Name</label>
-      <input type="text" id="folderNameInput" placeholder="e.g. Living Room" oninput="validateFolderName()" onkeydown="if(event.key==='Enter')confirmFolder()">
+      <input type="text" id="folderNameInput" maxlength="32" placeholder="e.g. Living Room" oninput="validateFolderName()" onkeydown="if(event.key==='Enter')confirmFolder()">
       <div class="field-err" id="folderNameErr"></div>
     </div>
     <div class="modal-actions">
@@ -202,7 +204,7 @@
     <div class="modal-title"><i class="ti ti-pencil"></i>Rename</div>
     <div class="field-group">
       <label class="field-label">New Name</label>
-      <input type="text" id="renameInput" oninput="validateRenameInput()" onkeydown="if(event.key==='Enter')confirmRename()">
+      <input type="text" id="renameInput" maxlength="32" oninput="validateRenameInput()" onkeydown="if(event.key==='Enter')confirmRename()">
       <div class="field-err" id="renameErr"></div>
     </div>
     <div class="modal-actions">
