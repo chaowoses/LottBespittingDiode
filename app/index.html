@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>LBD — Lott-Bespitting Diode</title>
+<title>Lott-Bespitting Diode</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -415,7 +415,7 @@
   font-size: .6rem;
   
   /* 1. Change text color to deep purple */
-  color: #c850ffcc; 
+  color: var(--ir);
   
   letter-spacing: .2em;
   
@@ -489,49 +489,100 @@
   .warning-text p { font-family: 'Share Tech Mono', monospace; font-size: .8rem; color: var(--muted); line-height: 1.8; max-width: 600px; }
 
   /* ─── FOOTER ─────────────────────────────────────────── */
+footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+}
+
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: var(--ir);
+  text-shadow: var(--glow-ir);
+  letter-spacing: .05em;
+}
+
+.footer-meta {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .7rem;
+  color: var(--muted);
+  line-height: 2;
+}
+
+.footer-meta a {
+  color: var(--ir);
+  text-decoration: none;
+}
+
+.footer-meta a:hover {
+  text-decoration: underline;
+}
+
+/* ─── GITHUB FOOTER LINK ─────────────────────────────── */
+.footer-github {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .75rem;
+  color: var(--muted);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: .6rem 1.2rem;
+  transition: border-color .3s, color .3s;
+}
+
+.footer-github:hover {
+  border-color: var(--ir);
+  color: var(--ir);
+}
+
+.footer-github i {
+  font-size: 1.1rem;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 900px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  section {
+    padding: 5rem 6vw;
+  }
+  #hero {
+    padding: 4.5rem 6vw 5rem;
+  }
+  .arch-diagram {
+    grid-template-columns: 1fr;
+  }
+  .arch-arrow {
+    transform: rotate(90deg);
+    margin: 1rem auto;
+  }
+  /* Removed align-items: flex-start to maintain centering */
   footer {
-    position: relative; z-index: 1;
-    padding: 4rem 10vw;
-    border-top: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 2rem;
-    display: flex;
     flex-direction: column;
-    align-items: center; /* Centers items horizontally */
-    justify-content: center;
-    text-align: center;
-    gap: 1rem; /* Adds space between the logo, meta text, and icon */
-    padding: 2rem 0;
+    align-items: center;
   }
-  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--ir); text-shadow: var(--glow-ir); letter-spacing: .05em; }
-  .footer-meta { font-family: 'Share Tech Mono', monospace; font-size: .7rem; color: var(--muted); line-height: 2; }
-  .footer-meta a { color: var(--ir); text-decoration: none; }
-  .footer-meta a:hover { text-decoration: underline; }
-
-  /* ─── GITHUB FOOTER LINK ─────────────────────────────── */
-  .footer-github {
-    display: flex; align-items: center; gap: .6rem;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: .75rem; color: var(--muted); text-decoration: none;
-    border: 1px solid var(--border); padding: .6rem 1.2rem;
-    transition: border-color .3s, color .3s;
+  .warning-inner {
+    flex-direction: column;
   }
-  .footer-github:hover { border-color: var(--ir); color: var(--ir); }
-  .footer-github i { font-size: 1.1rem; }
-
-  /* ─── RESPONSIVE ─────────────────────────────────────── */
-  @media (max-width: 900px) {
-    .features-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 600px) {
-    .features-grid { grid-template-columns: 1fr; }
-    section { padding: 5rem 6vw; }
-    #hero   { padding: 4.5rem 6vw 5rem; }
-    .arch-diagram { grid-template-columns: 1fr; }
-    .arch-arrow { transform: rotate(90deg); margin: 1rem auto; }
-    footer { flex-direction: column; align-items: flex-start; }
-    .warning-inner { flex-direction: column; }
-  }
+}
 </style>
 </head>
 <body>
@@ -848,7 +899,7 @@
   <div class="footer-logo">LBD</div>
   <div class="footer-meta">
     Copyright © 2026 Joshua Felder (Chaos) · <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GPL-3.0 License</a><br>
-    Named for Mrs. Lott and her classroom projector. No Spanish teachers were harmed in the making of this project.
+    Named for Mrs. Lott. No Spanish teachers were harmed in the making of this project.
   </div>
   <a href="https://github.com/Chaos142/LottBespittingDiode" target="_blank" rel="noopener" class="footer-github">
     <i class="ti ti-brand-github" aria-hidden="true"></i>
