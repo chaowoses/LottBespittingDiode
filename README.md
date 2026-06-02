@@ -81,7 +81,7 @@ If you received an assembled unit, the firmware layer is pre-flashed.
 
 1. Plug the hardware unit directly into a USB port on your machine
 2. Launch the control interface panel
-3. Utilize the hosted web environment or follow the Local Interface Setup instructions below
+3. Utilize the hosted web environment or follow the Control Interface instructions below
 
 ## Option B — From-Scratch Assembly (DIY Build)
 
@@ -116,20 +116,35 @@ Copy the following onto the root of the `CIRCUITPY` volume:
 
 ---
 
-# 5. Local Interface Setup
+# 5. Control Interface Access
 
-Because the Web Serial API requires a secure cross-origin network context, you cannot run the control interface panel directly using a raw `file://` payload.
+## Option A — Hosted Web Interface (Recommended)
 
-## Launch Local Development Server
+The latest stable version of the control panel is available through GitHub Pages:
+
+[Launch LBD Control Interface](https://your-github-pages-url-here)
+
+Simply connect the LBD hardware via USB, open the page in a Chromium-based browser, and use the Connect button to establish a Web Serial session.
+
+---
+
+## Option B — Local Development Interface
+
+Because the Web Serial API requires a secure context, you cannot run the interface directly from a `file://` URL.
+
+### Launch Local Development Server
 
 ```bash
-# 1. Navigate into the software workspace
-cd lbd-project-portfolio/software
+# Clone the repository
+git clone https://github.com/Chaos142/LottBespittingDiode.git
 
-# 2. Launch a lightweight local server
+# Enter the project directory
+cd LottBespittingDiode
+
+# Start a local web server (example using Python)
 python -m http.server 8080
 
-# 3. Open the frontend dashboard
+# Open in your browser
 http://localhost:8080
 ```
 
