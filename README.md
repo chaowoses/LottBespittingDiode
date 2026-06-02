@@ -122,7 +122,7 @@ Copy the following onto the root of the `CIRCUITPY` volume:
 
 The latest stable version of the control panel is available through GitHub Pages:
 
-[Launch LBD Control Interface](https://your-github-pages-url-here)
+[Launch LBD Control Interface](https://chaos142.github.io/LottBespittingDiode/)
 
 Simply connect the LBD hardware via USB, open the page in a Chromium-based browser, and use the Connect button to establish a Web Serial session.
 
