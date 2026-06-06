@@ -1757,7 +1757,7 @@
 				)
 			)
 		)
-		(property "Value" "SW_Push"
+		(property "Value" "BOOTSEL"
 			(at 102.87 92.71 0)
 			(show_name no)
 			(do_not_autoplace no)
