@@ -2,6 +2,8 @@
 
 A high-intensity IR blaster built on the RP2040. Browser-native control over WebSerial, MOSFET-driven IR output, 38kHz NEC modulation. Fully open source.
 
+[Home Page](https://chaos142.github.io/LottBespittingDiode/) &middot; [Controller](https://chaos142.github.io/LottBespittingDiode/controller.html)
+
 Named for Mrs. Lott, the worst teacher I ever had, and her classroom projector.
 
 ---
