@@ -197,7 +197,7 @@ label.field-label { display: block; font-family: var(--mono); font-size: 10px; c
 .signal-box-header { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .signal-box-name { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--text); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .signal-meta { display: inline-flex; gap: 4px; flex-wrap: wrap; }
-.signal-chip { font-family: var(--mono); font-size: 10px; padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg4); color: var(--text2); }
+.signal-chip { font-family: var(--mono); font-size: 10px; padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg4); color: var(--text2); white-space: nowrap; }
 .signal-chip.addr { border-color: rgba(200,80,255,0.3); background: var(--accent-dim); color: var(--accent); }
 .signal-chip.cmd { border-color: rgba(66,153,225,0.3); background: var(--blue-dim); color: var(--blue); }
 .signal-chip.proto { border-color: rgba(72,187,120,0.2); background: var(--green-dim); color: var(--green); }
@@ -306,15 +306,24 @@ label.field-label { display: block; font-family: var(--mono); font-size: 10px; c
 .remote-card-name { display: block; width: 100%; font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.35; letter-spacing: 0.02em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .remote-card-meta { font-family: var(--mono); font-size: 10px; color: var(--text3); letter-spacing: 0.14em; text-transform: uppercase; }
 .remote-card-actions { display: flex; align-items: center; gap: 2px; flex-shrink: 0; margin-left: auto; }
-.remote-card-preview { display: flex; flex-direction: column; gap: 10px; flex: 1; min-height: 0; }
-.chip-row { display: flex; flex-wrap: wrap; gap: 6px; max-height: 48px; overflow: hidden; }
-.remote-card.expanded .chip-row { max-height: none; }
-.remote-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; }
+.remote-card-preview { display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 0; }
+.remote-card-desc { font-size: 11px; color: var(--text3); font-style: italic; margin: 0; line-height: 1.4; cursor: pointer; transition: color 0.1s; }
+.remote-card-desc:hover { color: var(--text2); }
+.chip-row { display: flex; flex-wrap: wrap; gap: 4px; overflow: hidden; align-items: flex-start; align-content: flex-start; max-height: 50px; }
+.chip-row.expanded { max-height: none; overflow: visible; }
+.remote-card-preview-bottom { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 0; }
+.remote-card-footer { display: flex; align-items: center; gap: 8px; }
 .remote-card-more { padding-left: 10px; padding-right: 10px; }
 .remote-card-more i { font-size: 11px; }
-.remote-card-count { font-family: var(--mono); font-size: 10px; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; }
 .remote-card-hidden { color: var(--text3); }
 .remote-card-empty { color: var(--text3); }
+
+/* ── FOLDER PREVIEW ── */
+.folder-preview { display: flex; flex-direction: column; gap: 4px; }
+.folder-preview-item { display: flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 11px; color: var(--text2); min-width: 0; }
+.folder-preview-item i { font-size: 12px; flex-shrink: 0; color: var(--text3); }
+.folder-preview-item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.folder-preview-more { font-family: var(--mono); font-size: 10px; color: var(--text3); margin-top: 2px; }
 
 /* ── FOLDER SECTION ── */
 .folder-section { margin-bottom: 16px; }
@@ -334,21 +343,26 @@ label.field-label { display: block; font-family: var(--mono); font-size: 10px; c
 .library-path .sep { color: var(--text3); }
 .library-path .cur { color: var(--accent); }
 .library-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; align-items: start; }
-.library-entry-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r2); padding: 12px 13px; transition: border-color 0.15s, background 0.15s; cursor: pointer; min-height: 88px; }
-.library-entry-card:hover { border-color: var(--accent); }
-.library-entry-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
-.library-entry-main { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.library-entry-main i { font-size: 15px; color: var(--accent); flex-shrink: 0; }
-.library-entry-name { font-family: var(--mono); font-size: 13px; color: var(--text); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.library-entry-meta { font-family: var(--mono); font-size: 10px; color: var(--text3); }
-.library-entry-actions { display: flex; align-items: center; gap: 2px; opacity: 0; transition: opacity 0.12s; }
-.library-entry-card:hover .library-entry-actions { opacity: 1; }
-.library-folder-card .library-entry-main i { color: var(--text2); }
-.remote-card-grid { margin: 0; min-height: 88px; }
+.remote-card-grid { margin: 0; }
+
+/* ── FAVORITES LAYOUT ── */
+.favorites-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.favorites-column { min-width: 0; }
+.fav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.fav-signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.fav-signal-item { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r2); padding: 10px 12px; transition: border-color 0.15s; }
+.fav-signal-item:hover { border-color: var(--border2); }
+.fav-signal-top { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.fav-signal-name { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--text); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.fav-signal-actions { display: flex; gap: 6px; margin-top: 6px; }
+.fav-signal-desc { font-size: 11px; color: var(--text3); font-style: italic; margin-top: 4px; line-height: 1.4; }
 
 @media (max-width: 900px) {
   .library-grid { grid-template-columns: 1fr; }
   .library-browser-left { flex-wrap: wrap; }
+  .favorites-layout { grid-template-columns: 1fr; }
+  .fav-grid { grid-template-columns: 1fr; }
+  .fav-signal-grid { grid-template-columns: 1fr; }
 }
 
 /* ── IRDB ── */
