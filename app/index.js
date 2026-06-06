@@ -48,11 +48,14 @@ document.querySelectorAll('.panel-tab').forEach(btn => {
   var nextBtn = document.getElementById('sch-next');
   if (!ph || !viewer || !label || !embed || !prevBtn || !nextBtn) return;
 
+  // comment out the contents of this array to test the placeholder
   var sheets = [
+    
     '../hardware/LBD.kicad_sch',
     '../hardware/power.kicad_sch',
     '../hardware/flash.kicad_sch',
     '../hardware/usb.kicad_sch'
+    
   ];
   var idx = 0;
 

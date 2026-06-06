@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'app/**'
+      - 'hardware/*.kicad_sch'
       - '.github/workflows/deploy.yml'
 
 permissions:
@@ -17,8 +18,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Build deployment package
+        run: |
+          mkdir public
+          # Sync app content
+          cp -r app/* public/
+          # Sync hardware content
+          mkdir -p public/hardware
+          cp hardware/*.kicad_sch public/hardware/
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./app
+          publish_dir: ./public
+          force_orphan: true
