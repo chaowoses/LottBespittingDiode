@@ -4,622 +4,93 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Lott-Bespitting Diode</title>
+<script type="module" src="https://kicanvas.org/kicanvas/kicanvas.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
-<style>
-  :root {
-    --bg:        #080808;
-    --bg2:       #0d0d0d;
-    --ir:        #c850ff;
-    --ir-dim:    #6e1d96;
-    --amber:     #ffb020;
-    --amber-dim: #7a5000;
-    --white:     #e8e8e8;
-    --muted:     #555;
-    --border:    #1f1f1f;
-    --glow-ir:   0 0 18px #c850ff88, 0 0 60px #c850ff33;
-    --glow-amb:  0 0 18px #ffb02088, 0 0 60px #ffb02033;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--white);
-    font-family: 'DM Sans', sans-serif;
-    overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* ─── CURSOR ─────────────────────────────────────────── */
-  #cursor {
-    position: fixed; top: 0; left: 0; z-index: 9999;
-    pointer-events: none;
-    mix-blend-mode: screen;
-  }
-  #cursor-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--ir);
-    box-shadow: var(--glow-ir);
-    position: absolute; transform: translate(-50%,-50%);
-    transition: transform .1s;
-  }
-  #cursor-ring {
-    width: 36px; height: 36px; border-radius: 50%;
-    border: 1px solid var(--ir);
-    position: absolute; transform: translate(-50%,-50%);
-    transition: width .25s, height .25s, opacity .25s;
-    opacity: .5;
-  }
-  body:has(a:hover) #cursor-ring,
-  body:has(button:hover) #cursor-ring {
-    width: 56px; height: 56px; opacity: .9;
-  }
-
-  /* ─── SCANLINES ──────────────────────────────────────── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 9000;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-      0deg, transparent, transparent 2px,
-      rgba(0,0,0,.15) 2px, rgba(0,0,0,.15) 4px
-    );
-  }
-
-  /* ─── NOISE ─────────────────────────────────────────── */
-  body::after {
-    content: '';
-    position: fixed; inset: 0; z-index: 8999;
-    pointer-events: none;
-    opacity: .04;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 200px;
-  }
-
-  /* ─── GRID BG ────────────────────────────────────────── */
-  .grid-bg {
-    position: fixed; inset: 0; z-index: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(rgba(200,80,255,.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(200,80,255,.04) 1px, transparent 1px);
-    background-size: 48px 48px;
-    animation: grid-drift 30s linear infinite;
-  }
-  @keyframes grid-drift {
-    from { background-position: 0 0; }
-    to   { background-position: 48px 48px; }
-  }
-
-  /* ─── HERO ──────────────────────────────────────────── */
-  #hero {
-    position: relative; z-index: 1;
-    min-height: 100vh;
-    min-height: 100svh;
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: flex-start;
-    padding: clamp(3rem, 4vh, 4rem) 10vw clamp(3rem, 4vh, 4rem);
-    overflow: hidden;
-  }
-
-  .ir-beam {
-    position: absolute; right: 0; top: 50%;
-    transform: translateY(-50%);
-    width: 60vw; height: 60vw;
-    pointer-events: none;
-  }
-  .ir-beam::before, .ir-beam::after {
-    content: '';
-    position: absolute; inset: 0;
-    border-radius: 50%;
-    border: 1px solid rgba(200,80,255,.15);
-    animation: pulse-ring 3s ease-out infinite;
-  }
-  .ir-beam::after { animation-delay: 1.5s; }
-  @keyframes pulse-ring {
-    0%   { transform: scale(.3); opacity: .9; }
-    100% { transform: scale(1);  opacity: 0;  }
-  }
-
-  .beam-core {
-    position: absolute; right: -20px; top: 50%;
-    transform: translateY(-50%);
-    width: 40px; height: 40px; border-radius: 50%;
-    background: var(--ir);
-    box-shadow: var(--glow-ir), 0 0 120px #c850ff66;
-    animation: core-pulse 2s ease-in-out infinite alternate;
-  }
-  @keyframes core-pulse {
-    from { box-shadow: var(--glow-ir), 0 0 80px #c850ff44; }
-    to   { box-shadow: 0 0 30px #c850ffcc, 0 0 180px #c850ff88; }
-  }
-
-  .ring {
-    position: absolute; right: 0; top: 50%; transform: translate(50%,-50%);
-    border-radius: 50%;
-    border: 1px solid rgba(200,80,255,.1);
-    animation: expand-ring 4s ease-out infinite;
-  }
-  .ring:nth-child(1) { width: 200px; height: 200px; animation-delay: 0s;   }
-  .ring:nth-child(2) { width: 400px; height: 400px; animation-delay: .8s;  }
-  .ring:nth-child(3) { width: 600px; height: 600px; animation-delay: 1.6s; }
-  .ring:nth-child(4) { width: 800px; height: 800px; animation-delay: 2.4s; }
-  @keyframes expand-ring {
-    0%   { opacity: .8; }
-    100% { opacity: 0;  }
-  }
-
-  .hero-eyebrow {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: .75rem; letter-spacing: .3em;
-    color: var(--ir); text-transform: uppercase;
-    margin-bottom: 1rem;
-    opacity: 0; animation: fade-up .8s .2s forwards;
-  }
-  .hero-eyebrow::before { content: '> '; }
-
-  .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3.25rem, 9vw, 8rem);
-    line-height: .86; letter-spacing: -.015em;
-    color: var(--white);
-    opacity: 0; animation: fade-up .9s .4s forwards;
-  }
-  .hero-title span { color: var(--ir); text-shadow: var(--glow-ir); }
-
-  .hero-sub {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: clamp(.8rem, 1.5vw, 1.1rem);
-    color: var(--muted);
-    margin-top: 1rem; max-width: 480px; line-height: 1.65;
-    opacity: 0; animation: fade-up .9s .6s forwards;
-  }
-
-  .hero-cta {
-    margin-top: 2rem;
-    display: flex; gap: 1rem; flex-wrap: wrap;
-    opacity: 0; animation: fade-up .9s .8s forwards;
-  }
-
-  /* GitHub link in nav-style row */
-  .hero-github {
-    margin-top: 1rem;
-    opacity: 0; animation: fade-up .9s 1.0s forwards;
-  }
-  .hero-github a {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: .75rem; letter-spacing: .15em;
-    color: var(--muted); text-decoration: none;
-    display: inline-flex; align-items: center; gap: .5rem;
-    transition: color .25s;
-  }
-  .hero-github a:hover { color: var(--ir); }
-  .hero-github a i { font-size: 1rem; }
-
-  .btn {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: .85rem; letter-spacing: .12em;
-    text-transform: uppercase; text-decoration: none;
-    padding: .9rem 2.2rem; border: 1px solid;
-    position: relative; overflow: hidden;
-    transition: color .3s; display: inline-block;
-  }
-  .btn::before {
-    content: '';
-    position: absolute; inset: 0;
-    transform: translateX(-100%);
-    transition: transform .35s cubic-bezier(.4,0,.2,1);
-  }
-  .btn:hover::before { transform: translateX(0); }
-  .btn:hover { color: var(--bg); }
-  .btn-primary { border-color: var(--ir); color: var(--ir); box-shadow: var(--glow-ir); }
-  .btn-primary::before { background: var(--ir); }
-  .btn-ghost { border-color: var(--muted); color: var(--muted); }
-  .btn-ghost::before { background: var(--muted); }
-
-  @keyframes fade-up {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .scroll-hint {
-    position: absolute; bottom: 1.35rem; left: 50%;
-    transform: translateX(-50%);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: .65rem; letter-spacing: .25em;
-    color: var(--muted);
-    display: flex; flex-direction: column; align-items: center; gap: .6rem;
-    animation: fade-up 1s 1.4s both;
-  }
-  .scroll-hint::after {
-    content: '';
-    width: 1px; height: 40px;
-    background: linear-gradient(var(--ir), transparent);
-    animation: line-drop 1.6s ease-in-out infinite;
-  }
-  @keyframes line-drop {
-    0%,100% { transform: scaleY(0); transform-origin: top; }
-    50%      { transform: scaleY(1); }
-  }
-
-  /* ─── SECTIONS ───────────────────────────────────────── */
-  section {
-    position: relative; z-index: 1;
-    padding: 8rem 10vw;
-  }
-  section + section { border-top: 1px solid var(--border); }
-
-  .section-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: .7rem; letter-spacing: .35em;
-    color: var(--ir); text-transform: uppercase;
-    margin-bottom: 1rem;
-    display: flex; align-items: center; gap: .8rem;
-  }
-  .section-label::after {
-    content: ''; flex: 1; max-width: 80px;
-    height: 1px; background: var(--ir-dim);
-  }
-
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.5rem, 6vw, 5.5rem);
-    line-height: 1; color: var(--white); margin-bottom: 2rem;
-  }
-
-  .reveal {
-    opacity: 0; transform: translateY(40px);
-    transition: opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1);
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-left  { opacity: 0; transform: translateX(-50px); transition: opacity .7s .1s cubic-bezier(.4,0,.2,1), transform .7s .1s cubic-bezier(.4,0,.2,1); }
-  .reveal-left.visible  { opacity: 1; transform: translateX(0); }
-  .reveal-right { opacity: 0; transform: translateX(50px);  transition: opacity .7s .2s cubic-bezier(.4,0,.2,1), transform .7s .2s cubic-bezier(.4,0,.2,1); }
-  .reveal-right.visible { opacity: 1; transform: translateX(0); }
-
-  /* ─── TICKER ─────────────────────────────────────────── */
-  .ticker-wrap {
-    overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-    padding: 1rem 0; background: var(--bg2);
-    position: relative; z-index: 1;
-  }
-  .ticker { display: flex; gap: 0; animation: ticker 24s linear infinite; white-space: nowrap; }
-  .ticker-item {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: .75rem; letter-spacing: .15em;
-    color: var(--muted); padding: 0 3rem; text-transform: uppercase;
-  }
-  .ticker-item span { color: var(--ir); margin-right: .6rem; }
-  @keyframes ticker {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-
-  /* ─── ARCHITECTURE ───────────────────────────────────── */
-  #architecture { background: var(--bg2); }
-
-  .arch-diagram {
-    margin-top: 3rem;
-    display: grid; grid-template-columns: 1fr 60px 1fr;
-    gap: 0; align-items: center;
-  }
-  .arch-box {
-    border: 1px solid var(--border); padding: 2rem;
-    position: relative; background: var(--bg);
-    transition: border-color .3s, box-shadow .3s;
-  }
-  .arch-box:hover { border-color: var(--ir); box-shadow: inset 0 0 30px rgba(200,80,255,.05), var(--glow-ir); }
-  .arch-box-title {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: .65rem; letter-spacing: .25em;
-    color: var(--ir); text-transform: uppercase; margin-bottom: 1rem;
-  }
-  .arch-box-title::before { content: '[ '; }
-  .arch-box-title::after  { content: ' ]'; }
-  .arch-item {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: .8rem; color: var(--muted);
-    padding: .4rem 0; border-bottom: 1px solid var(--border);
-    transition: color .2s, padding-left .2s;
-  }
-  .arch-item:last-child { border-bottom: none; }
-  .arch-box:hover .arch-item { color: var(--white); }
-  .arch-box:hover .arch-item:hover { color: var(--ir); padding-left: .5rem; }
-  .arch-item::before { content: '→ '; color: var(--ir-dim); }
-
-  .arch-arrow {
-    display: flex; flex-direction: column; align-items: center;
-    gap: .7rem; font-family: 'Share Tech Mono', monospace;
-    font-size: .6rem; color: var(--muted); letter-spacing: .18em; text-transform: uppercase;
-  }
-  .arch-arrow-line {
-    width: 1px; height: 56px;
-    background: linear-gradient(var(--ir), var(--ir-dim));
-    position: relative; animation: data-flow 1.5s ease-in-out infinite;
-  }
-  @keyframes data-flow {
-    0%,100% { opacity: .4; }
-    50%      { opacity: 1;  }
-  }
-  .arch-arrow-line::after { content: none; }
-
-  .arch-bottom {
-    margin-top: 2rem; border: 1px solid var(--ir-dim);
-    padding: 1.5rem 2rem; background: rgba(200,80,255,.03);
-    display: flex; align-items: center; gap: 2rem;
-    position: relative; overflow: hidden;
-  }
-  .arch-bottom::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--ir), transparent);
-    animation: sweep 3s ease-in-out infinite;
-  }
-  @keyframes sweep { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
-
-  .ir-matrix-label { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--ir); letter-spacing: .05em; }
-  .ir-leds { display: flex; gap: 8px; flex-wrap: wrap; }
-  .ir-led {
-    width: 10px; height: 10px; border-radius: 50%;
-    background: var(--ir); box-shadow: var(--glow-ir);
-    animation: led-blink 2s ease-in-out infinite;
-  }
-  .ir-led:nth-child(2n) { animation-delay: .3s; }
-  .ir-led:nth-child(3n) { animation-delay: .6s; }
-  .ir-led:nth-child(4n) { animation-delay: .9s; }
-  .ir-led:nth-child(5n) { animation-delay: 1.2s; }
-  @keyframes led-blink {
-    0%,100% { opacity: .3; box-shadow: none; }
-    50%      { opacity: 1;  box-shadow: var(--glow-ir); }
-  }
-
-  /* ─── FEATURES ───────────────────────────────────────── */
-  .features-grid {
-    margin-top: 3rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);   /* forced 3 columns */
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-  }
-  .feature-card {
-    background: var(--bg); padding: 2.5rem 2rem;
-    position: relative; overflow: hidden;
-    transition: background .3s;
-  }
-  .feature-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: var(--ir); transform: scaleX(0); transform-origin: left;
-    transition: transform .4s cubic-bezier(.4,0,.2,1);
-  }
-  .feature-card:hover { background: rgba(200,80,255,.03); }
-  .feature-card:hover::before { transform: scaleX(1); }
-
-  .feature-icon {
-    font-size: 1.4rem; margin-bottom: 1.2rem;
-    color: var(--ir);
-    filter: drop-shadow(0 0 8px var(--ir));
-    display: block;
-  }
-  .feature-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--white); margin-bottom: .5rem; }
-  .feature-desc { font-size: .85rem; color: var(--muted); line-height: 1.7; }
-  .feature-num {
-  position: absolute;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: .6rem;
-  
-  /* 1. Change text color to deep purple */
-  color: var(--ir);
-  
-  letter-spacing: .2em;
-  
-  /* 2. Change the shadow glow to match the deep purple */
-  /* (Adjusted to 0.4 opacity and a tighter 4px blur so it's visible on small font) */
-  text-shadow: 0 0 4px rgba(200, 80, 255, 0.4);
-}
-
-  /* ─── PROTOCOL ───────────────────────────────────────── */
-  #protocol { background: var(--bg2); }
-
-  .protocol-vis { margin-top: 3rem; font-family: 'Share Tech Mono', monospace; }
-  .proto-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.8rem; }
-  .proto-label { font-size: .7rem; color: var(--muted); letter-spacing: .15em; text-transform: uppercase; width: 80px; flex-shrink: 0; text-align: right; }
-  .proto-bar-wrap { flex: 1; height: 32px; position: relative; background: rgba(255,255,255,.03); border: 1px solid var(--border); overflow: hidden; }
-  .proto-bar {
-    height: 100%; background: linear-gradient(90deg, var(--ir), var(--ir-dim));
-    width: 0; transition: width 1.2s cubic-bezier(.4,0,.2,1); position: relative;
-  }
-  .proto-bar::after {
-    content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 2px;
-    background: #fff; box-shadow: 0 0 8px #fff;
-    animation: bar-pulse 1s ease-in-out infinite;
-  }
-  @keyframes bar-pulse { 0%,100% { opacity: 0; } 50% { opacity: 1; } }
-  .proto-bar-wrap.animate .proto-bar { width: var(--w); }
-  .proto-val { font-size: .75rem; color: var(--ir); width: 100px; flex-shrink: 0; }
-
-  .waveform-wrap { margin-top: 3rem; border: 1px solid var(--border); padding: 2rem; background: var(--bg); overflow: hidden; position: relative; }
-  .waveform-label { font-size: .65rem; letter-spacing: .2em; color: var(--muted); text-transform: uppercase; margin-bottom: 1.5rem; }
-  .waveform-label span { color: var(--ir); }
-  .waveform-svg { width: 100%; overflow: hidden; }
-
-  /* ─── SETUP ──────────────────────────────────────────── */
-  .setup-steps { margin-top: 3rem; counter-reset: step; }
-  .step { display: grid; grid-template-columns: 60px 1fr; gap: 1.5rem; padding: 2rem 0; border-bottom: 1px solid var(--border); position: relative; }
-  .step:last-child { border-bottom: none; }
-  .step-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; line-height: 1; color: var(--ir); opacity: .3; transition: opacity .3s; }
-  .step:hover .step-num { opacity: 1; }
-  .step-content h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--white); margin-bottom: .5rem; }
-  .step-content p { font-size: .9rem; color: var(--muted); line-height: 1.7; }
-  .step-tag { font-family: 'Share Tech Mono', monospace; font-size: .65rem; letter-spacing: .2em; background: rgba(200,80,255,.1); border: 1px solid var(--ir-dim); color: var(--ir); padding: .15rem .6rem; display: inline-block; margin-bottom: .6rem; }
-
-  /* ─── CODE ───────────────────────────────────────────── */
-  .code-block {
-    background: #0a0a0a; border: 1px solid var(--border);
-    padding: 1.5rem 2rem; margin-top: 1rem;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: .8rem; color: #888; line-height: 1.8;
-    position: relative; overflow: hidden;
-  }
-  .code-block::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, var(--ir-dim), transparent);
-  }
-  .code-c { color: var(--muted); }
-  .code-k { color: var(--amber); }
-  .code-s { color: var(--ir); }
-  .code-v { color: #79c0ff; }
-  .code-n { color: var(--white); }
-
-  /* ─── WARNING ────────────────────────────────────────── */
-  #warning { background: rgba(255,176,32,.04); border-top: 1px solid var(--amber-dim); border-bottom: 1px solid var(--amber-dim); }
-  .warning-inner { display: flex; gap: 2rem; align-items: flex-start; }
-  .warning-icon { font-size: 2rem; flex-shrink: 0; color: var(--amber); filter: drop-shadow(var(--glow-amb)); animation: warn-pulse 2s ease-in-out infinite; }
-  @keyframes warn-pulse {
-    0%,100% { filter: drop-shadow(0 0 8px #ffb02088); }
-    50%      { filter: drop-shadow(0 0 24px #ffb020cc); }
-  }
-  .warning-text h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--amber); letter-spacing: .05em; margin-bottom: .6rem; }
-  .warning-text p { font-family: 'Share Tech Mono', monospace; font-size: .8rem; color: var(--muted); line-height: 1.8; max-width: 600px; }
-
-  /* ─── FOOTER ─────────────────────────────────────────── */
-footer {
-  position: relative;
-  z-index: 1;
-  border-top: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 1rem;
-  padding: 4rem 2rem;
-}
-
-.footer-logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 2rem;
-  color: var(--ir);
-  text-shadow: var(--glow-ir);
-  letter-spacing: .05em;
-}
-
-.footer-meta {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: .7rem;
-  color: var(--muted);
-  line-height: 2;
-}
-
-.footer-meta a {
-  color: var(--ir);
-  text-decoration: none;
-}
-
-.footer-meta a:hover {
-  text-decoration: underline;
-}
-
-/* ─── GITHUB FOOTER LINK ─────────────────────────────── */
-.footer-github {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .6rem;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: .75rem;
-  color: var(--muted);
-  text-decoration: none;
-  border: 1px solid var(--border);
-  padding: .6rem 1.2rem;
-  transition: border-color .3s, color .3s;
-}
-
-.footer-github:hover {
-  border-color: var(--ir);
-  color: var(--ir);
-}
-
-.footer-github i {
-  font-size: 1.1rem;
-}
-
-/* ─── RESPONSIVE ─────────────────────────────────────── */
-@media (max-width: 900px) {
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr);
+<link rel="stylesheet" href="index.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.163.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.163.0/examples/jsm/"
   }
 }
-
-@media (max-width: 600px) {
-  .features-grid {
-    grid-template-columns: 1fr;
-  }
-  section {
-    padding: 5rem 6vw;
-  }
-  #hero {
-    padding: 4.5rem 6vw 5rem;
-  }
-  .arch-diagram {
-    grid-template-columns: 1fr;
-  }
-  .arch-arrow {
-    transform: rotate(90deg);
-    margin: 1rem auto;
-  }
-  /* Removed align-items: flex-start to maintain centering */
-  footer {
-    flex-direction: column;
-    align-items: center;
-  }
-  .warning-inner {
-    flex-direction: column;
-  }
-}
-</style>
+</script>
 </head>
 <body>
-
-<div id="cursor">
-  <div id="cursor-dot"></div>
-  <div id="cursor-ring"></div>
-</div>
 
 <div class="grid-bg"></div>
 
 <!-- ══ HERO ══ -->
 <section id="hero">
-  <div class="ring"></div>
-  <div class="ring"></div>
-  <div class="ring"></div>
-  <div class="ring"></div>
-  <div class="beam-core"></div>
+  <div id="hero-three-bg"></div>
 
-  <div class="hero-eyebrow">RP2040 · NEC Protocol · WebSerial · 38kHz</div>
-  <h1 class="hero-title">
-    <span>LBD</span><br>
-    Lott-<br>Bespitting<br>Diode
-  </h1>
-  <p class="hero-sub">
-    A high-intensity IR blaster built on the RP2040.<br>
-    Browser-native control. MOSFET-driven. Zero compromise.
-  </p>
-  <div class="hero-cta">
-    <a href="controller.html" class="btn btn-primary">→ Launch Controller</a>
-    <a href="#architecture" class="btn btn-ghost">↓ System Docs</a>
-  </div>
-  <div class="hero-github">
-    <a href="https://github.com/Chaos142/LottBespittingDiode" target="_blank" rel="noopener">
-      <i class="ti ti-brand-github" aria-hidden="true"></i>
-      View on GitHub
-    </a>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">RP2040 · NEC Protocol · WebSerial · 38kHz</div>
+      <h1 class="hero-title">
+        <span>LBD</span><br>
+        Lott-<br>Bespitting<br>Diode
+      </h1>
+      <p class="hero-sub">
+        A high-intensity IR blaster built on the RP2040.<br>
+        Browser-native control. MOSFET-driven. Zero compromise.
+      </p>
+      <div class="hero-cta">
+        <a href="controller.html" class="btn btn-primary">→ Launch Controller</a>
+        <a href="#architecture" class="btn btn-ghost">↓ System Docs</a>
+      </div>
+      <div class="hero-github">
+        <a href="https://github.com/Chaos142/LottBespittingDiode" target="_blank" rel="noopener">
+          <i class="ti ti-brand-github" aria-hidden="true"></i>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-panel">
+      <div class="panel-tabs">
+        <button class="panel-tab active" data-tab="bom">BOM</button>
+        <button class="panel-tab" data-tab="schematic">Schematic</button>
+        <button class="panel-tab" data-tab="pcb">PCB 3D</button>
+      </div>
+      <div class="panel-content">
+        <div id="tab-bom" class="tab-content active">
+          <div class="tab-body">
+            <table class="bom-table">
+              <tr><th>Ref</th><th>Value</th><th>Qty</th></tr>
+              <tr><td class="bom-ref">U1</td><td class="bom-val">RP2040</td><td>1</td></tr>
+            </table>
+          </div>
+        </div>
+        <div id="tab-schematic" class="tab-content">
+          <div id="sch-placeholder" class="tab-placeholder">
+            <i class="ti ti-circuit-cell"></i>
+            <div>LBD.kicad_sch<br/>power.kicad_sch<br/>flash.kicad_sch<br/>usb.kicad_sch</div>
+            <div class="hint">add KiCad schematics to hardware/ when ready</div>
+          </div>
+          <div id="sch-viewer" style="display:none;flex-direction:column;height:100%;">
+            <div class="sch-toolbar">
+              <button id="sch-prev" class="sch-btn"><i class="ti ti-chevron-left"></i></button>
+              <span id="sch-current" class="sch-current">LBD.kicad_sch</span>
+              <button id="sch-next" class="sch-btn"><i class="ti ti-chevron-right"></i></button>
+            </div>
+            <div style="flex:1;min-height:0;">
+              <kicanvas-embed id="kicanvas-embed" src="../hardware/LBD.kicad_sch" controls="basic" controlslist="nooverlay"></kicanvas-embed>
+            </div>
+          </div>
+        </div>
+        <div id="tab-pcb" class="tab-content">
+          <div class="tab-placeholder">
+            <i class="ti ti-cube"></i>
+            <div>PCB 3D Model</div>
+            <div class="hint">Coming soon...</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="scroll-hint">scroll</div>
@@ -907,56 +378,8 @@ footer {
   </a>
 </footer>
 
-<script>
+<script src="index.js"></script>
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const disclaimerEl = document.getElementById('disclaimer');
-    
-    const insults = [
-      "No Spanish teachers were harmed in the making of this project.",
-      "Named for Mrs. Lott. Powered by the RP2040 and pure spite.",
-      "Projector sabotage made discreet. For you, Allen.",
-      "This was funnier in my head.",
-      "Open source. Closed blinds.",
-      "Designed with KiCad and malicious compliance.",
-      "Remember to breathe through your mouth during PALS.",
-      "Kebabs, anyone?",
-    ];
-
-    const randomInsult = insults[Math.floor(Math.random() * insults.length)];
-    
-    disclaimerEl.textContent = randomInsult;
-  });
-
-  const dot  = document.getElementById('cursor-dot');
-  const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-  function animCursor() {
-    dot.style.left  = mx + 'px'; dot.style.top  = my + 'px';
-    rx += (mx - rx) * .12;      ry += (my - ry) * .12;
-    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-    requestAnimationFrame(animCursor);
-  }
-  animCursor();
-
-  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-  }, { threshold: 0.15 });
-  revealEls.forEach(el => io.observe(el));
-
-  const bars = document.querySelectorAll('.proto-bar-wrap');
-  const barIO = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('animate'); barIO.unobserve(e.target); } });
-  }, { threshold: 0.5 });
-  bars.forEach(b => barIO.observe(b));
-
-  const rings = document.querySelectorAll('.ring');
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    rings.forEach((r, i) => { r.style.transform = `translate(50%,-50%) translateY(${y * (i + 1) * .04}px)`; });
-  }, { passive: true });
-</script>
+<script type="module" src="three-scene.js"></script>
 </body>
 </html>

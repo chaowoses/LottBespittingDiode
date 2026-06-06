@@ -1,0 +1,102 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const disclaimerEl = document.getElementById('disclaimer');
+
+  const insults = [
+    "No Spanish teachers were harmed in the making of this project.",
+    "Named for Mrs. Lott. Powered by the RP2040 and pure spite.",
+    "Projector sabotage made discreet. For you, Allen.",
+    "This was funnier in my head.",
+    "Open source. Closed blinds.",
+    "Designed with KiCad and malicious compliance.",
+    "Remember to breathe through your mouth during PALS.",
+    "Kebabs, anyone?",
+  ];
+
+  disclaimerEl.textContent = insults[Math.floor(Math.random() * insults.length)];
+});
+
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.15 });
+revealEls.forEach(el => io.observe(el));
+
+const bars = document.querySelectorAll('.proto-bar-wrap');
+const barIO = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('animate'); barIO.unobserve(e.target); } });
+}, { threshold: 0.5 });
+bars.forEach(b => barIO.observe(b));
+
+// ─── HERO PANEL TABS ──
+document.querySelectorAll('.panel-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.panel-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = document.getElementById('tab-' + btn.dataset.tab);
+    if (tab) tab.classList.add('active');
+  });
+});
+
+// ─── KICANVAS SCHEMATIC VIEWER ──
+(function loadSchematic() {
+  var ph = document.getElementById('sch-placeholder');
+  var viewer = document.getElementById('sch-viewer');
+  var label = document.getElementById('sch-current');
+  var embed = document.getElementById('kicanvas-embed');
+  var prevBtn = document.getElementById('sch-prev');
+  var nextBtn = document.getElementById('sch-next');
+  if (!ph || !viewer || !label || !embed || !prevBtn || !nextBtn) return;
+
+  var sheets = [
+    '../hardware/LBD.kicad_sch',
+    '../hardware/power.kicad_sch',
+    '../hardware/flash.kicad_sch',
+    '../hardware/usb.kicad_sch'
+  ];
+  var idx = 0;
+
+  var container = embed.parentNode;
+
+  rebuildEmbed(0);
+
+  function rebuildEmbed(i) {
+    var el = document.createElement('kicanvas-embed');
+    el.setAttribute('src', sheets[i]);
+    el.setAttribute('controls', 'basic');
+    el.setAttribute('controlslist', 'nooverlay');
+    el.addEventListener('kicanvas:documentchange', function(e) {
+      var src = (e.detail && e.detail.src) || '';
+      var name = src.split('/').pop().split('\\').pop();
+      if (name) label.textContent = (i + 1) + '/' + sheets.length + ' \u00b7 ' + name;
+    });
+    container.innerHTML = '';
+    container.appendChild(el);
+    embed = el;
+  }
+
+  function switchTo(i) {
+    if (i < 0 || i >= sheets.length) return;
+    idx = i;
+    rebuildEmbed(i);
+    label.textContent = (i + 1) + '/' + sheets.length + ' \u00b7 ' + sheets[i].split('/').pop().split('\\').pop();
+  }
+
+  fetch(sheets[0], { method: 'HEAD' })
+    .then(function(res) {
+      if (res.ok) {
+        ph.style.display = 'none';
+        viewer.style.display = 'flex';
+      }
+    })
+    .catch(function() {});
+
+  label.textContent = '1/' + sheets.length + ' \u00b7 ' + sheets[0].split('/').pop().split('\\').pop();
+
+  prevBtn.addEventListener('click', function() {
+    switchTo(idx - 1 < 0 ? sheets.length - 1 : idx - 1);
+  });
+  nextBtn.addEventListener('click', function() {
+    switchTo(idx + 1 >= sheets.length ? 0 : idx + 1);
+  });
+})();

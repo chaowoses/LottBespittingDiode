@@ -226,6 +226,24 @@ label.field-label { display: block; font-family: var(--mono); font-size: 10px; c
 /* DRAG GHOST */
 .drag-ghost { position: fixed; pointer-events: none; z-index: 9999; background: var(--bg2); border: 1px solid var(--accent); border-radius: var(--r); padding: 5px 10px; font-family: var(--mono); font-size: 12px; color: var(--text); white-space: nowrap; display: none; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
 
+/* UTILITY */
+.text-red { color: var(--red); }
+.icon-vm { vertical-align: -2px; margin-right: 6px; }
+.icon-xs { font-size: 10px; }
+.hidden-input { display: none; }
+.pane-hidden { display: none; }
+.search-wrap-no-mb { margin: 0; }
+.irdb-search-input { font-size: 11px; padding: 6px 8px 6px 28px; }
+.card-title-space { justify-content: space-between; }
+.transmit-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.save-form-actions { display: flex; gap: 8px; margin-top: 4px; }
+.log-bar-icon { font-size: 13px; color: var(--text3); flex-shrink: 0; }
+.clear-log-btn { margin-left: auto; margin-right: 4px; }
+.log-chevron { font-size: 12px; color: var(--text3); transition: transform 0.2s; flex-shrink: 0; }
+.modal-msg { color: var(--text2); font-size: 13px; margin-bottom: 4px; }
+.modal-msg-lg { color: var(--text2); font-size: 13px; margin-bottom: 10px; line-height: 1.6; }
+.modal-msg-md { color: var(--text2); font-size: 13px; margin-bottom: 14px; line-height: 1.5; }
+
 /* ── SECTION ── */
 .section-hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
 .section-title { font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--text3); letter-spacing: 1.2px; text-transform: uppercase; }
