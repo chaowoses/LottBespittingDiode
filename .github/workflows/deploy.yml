@@ -21,6 +21,18 @@ jobs:
       - name: Generate BOM from schematics
         run: python scripts/generate_bom.py
 
+      - name: Commit BOM update back to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/index.html
+          if git diff --cached --quiet; then
+            echo "No BOM changes to commit"
+          else
+            git commit -m "Update BOM from schematics [skip ci]"
+            git push
+          fi
+
       - name: Build deployment package
         run: |
           mkdir public
