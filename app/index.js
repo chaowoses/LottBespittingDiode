@@ -1,16 +1,8 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const disclaimerEl = document.getElementById('disclaimer');
 
-  const insults = [
-    "No Spanish teachers were harmed in the making of this project.",
-    "Named for Mrs. Lott. Powered by the RP2040 and pure spite.",
-    "Projector sabotage made discreet. For you, Allen.",
-    "This was funnier in my head.",
-    "Open source. Closed blinds.",
-    "Designed with KiCad and malicious compliance.",
-    "Remember to breathe through your mouth during PALS.",
-    "Kebabs, anyone?",
-  ];
+  const response = await fetch('insults.json');
+  const insults = await response.json();
 
   disclaimerEl.textContent = insults[Math.floor(Math.random() * insults.length)];
 });
