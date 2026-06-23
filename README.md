@@ -24,12 +24,26 @@ Named for Mrs. Lott, the worst teacher I ever had, and her classroom projector.
 ```
 app/                  # Web front-end
   index.html          # Landing page (hero, BOM, schematic viewer, docs)
-  index.css           # Landing page styles (dark theme, purple/amber)
-  index.js            # Landing page interactivity (tabs, viewer)
   controller.html     # WebSerial controller app
-  style.css           # Controller styles
-  script.js           # Controller logic (serial, library, IRDB, transmit)
-  three-scene.js      # Three.js particle background
+  landing/
+    index.css         # Landing page styles (dark theme, purple/amber)
+    index.js          # Landing page interactivity (tabs, viewer)
+    insults.json      # Footer quotes
+    three-scene.js    # Three.js particle background
+  controller/
+    style.css         # Controller styles
+    scripts/
+      app.js          # Init, event listeners, tab switching
+      state.js        # State management, library CRUD, localStorage
+      serial.js       # WebSerial connection, log bar
+      transmit.js     # Hex input, NEC encoding, transmit history, save form
+      library-ui.js   # Library pane, remote view, favorites, inline edits
+      sidebar.js      # Sidebar toggle, resize, tree rendering
+      modals.js       # Modal dialogs (folder, rename, delete, clear)
+      drag-drop.js    # Drag-and-drop reordering in sidebar tree
+      import.js       # .ir file parsing and import
+      irdb.js         # Flipper-IRDB browsing and import
+      utils.js        # escHtml, escAttr helpers
 
 firmware/             # CircuitPython firmware
   code.py             # NEC protocol engine over USB serial

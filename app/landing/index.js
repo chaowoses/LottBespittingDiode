@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const disclaimerEl = document.getElementById('disclaimer');
 
-  const response = await fetch('insults.json');
+  const response = await fetch('landing/insults.json');
   const insults = await response.json();
 
   disclaimerEl.textContent = insults[Math.floor(Math.random() * insults.length)];
