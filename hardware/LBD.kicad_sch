@@ -3380,7 +3380,7 @@
 				)
 			)
 		)
-		(property "Value" "LED"
+		(property "Value" "IN-S126ESGHIR"
 			(at 202.8825 123.19 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3629,7 +3629,7 @@
 				)
 			)
 		)
-		(property "Value" "LED"
+		(property "Value" "IN-S126ESGHIR"
 			(at 220.6625 107.95 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4145,7 +4145,7 @@
 				)
 			)
 		)
-		(property "Value" "LED"
+		(property "Value" "IN-S126ESGHIR"
 			(at 202.8825 111.76 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4236,7 +4236,7 @@
 				)
 			)
 		)
-		(property "Value" "LED"
+		(property "Value" "IN-S126ESGHIR"
 			(at 240.9825 116.84 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4644,7 +4644,7 @@
 				)
 			)
 		)
-		(property "Value" "LED"
+		(property "Value" "IN-S126ESGHIR"
 			(at 201.6125 99.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4893,7 +4893,7 @@
 				)
 			)
 		)
-		(property "Value" "LED"
+		(property "Value" "IN-S126ESGHIR"
 			(at 220.6625 97.79 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4984,7 +4984,7 @@
 				)
 			)
 		)
-		(property "Value" "LED"
+		(property "Value" "IN-S126ESGHIR"
 			(at 221.9325 125.73 0)
 			(show_name no)
 			(do_not_autoplace no)
