@@ -67,7 +67,7 @@
               <tr><td class="bom-ref">C15</td><td class="bom-val">22uF</td><td>1</td></tr>
               <tr><td class="bom-ref">C16</td><td class="bom-val">100nF</td><td>1</td></tr>
               <tr><td class="bom-ref">C19, C20</td><td class="bom-val">1u</td><td>2</td></tr>
-              <tr><td class="bom-ref">D1–D7</td><td class="bom-val">LED</td><td>7</td></tr>
+              <tr><td class="bom-ref">D1–D7</td><td class="bom-val">IN-S126ESGHIR</td><td>7</td></tr>
               <tr><td class="bom-ref">J1</td><td class="bom-val">Conn_01x03_Pin</td><td>1</td></tr>
               <tr><td class="bom-ref">J2</td><td class="bom-val">USB4155-03-C_REVA</td><td>1</td></tr>
               <tr><td class="bom-ref">R3, R13</td><td class="bom-val">5.1k</td><td>2</td></tr>
@@ -102,10 +102,78 @@
           </div>
         </div>
         <div id="tab-pcb" class="tab-content">
-          <div class="tab-placeholder">
-            <i class="ti ti-cube"></i>
-            <div>PCB 3D Model</div>
-            <div class="hint">Coming soon...</div>
+          <div class="pcb-placeholder">
+            <div class="pcb-board">
+              <svg class="pcb-svg" viewBox="0 0 140 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="pcb-board-shape" d="M44 40 v-18 a4 4 0 0 1 4 -4 h40 a4 4 0 0 1 4 4 v18 a6 6 0 0 1 6 6 v216 a6 6 0 0 1 -6 6 h-48 a6 6 0 0 1 -6 -6 v-216 a6 6 0 0 1 6 -6 z"
+                  stroke="#1a5c2a" stroke-width="2.5" fill="none"/>
+
+                <rect x="44" y="18" width="48" height="22" rx="2" fill="#151515" stroke="#333" stroke-width="1"/>
+                <rect x="44" y="22" width="48" height="14" rx="1" fill="#0d0d0d" stroke="#2a2a2a" stroke-width=".5"/>
+                <path d="M56 22 Q68 26 80 22" stroke="#444" stroke-width=".5" fill="none"/>
+
+                <rect class="pcb-chip" x="50" y="64" width="40" height="40" rx="2" fill="#111" stroke="#2a2a2a" stroke-width="1.2"/>
+                <rect class="pcb-chip-core" x="56" y="70" width="28" height="28" rx="1" fill="#141414"/>
+                <text class="pcb-chip-label" x="70" y="87" text-anchor="middle" fill="#505050" font-size="6" font-family="monospace" font-weight="600">RP2040</text>
+
+                <circle class="pcb-led" cx="96" cy="140" r="3" fill="#c850ff" style="animation-delay:0s"/>
+                <circle class="pcb-led" cx="96" cy="156" r="3" fill="#c850ff" style="animation-delay:.2s"/>
+                <circle class="pcb-led" cx="96" cy="172" r="3" fill="#c850ff" style="animation-delay:.4s"/>
+                <circle class="pcb-led" cx="96" cy="188" r="3" fill="#c850ff" style="animation-delay:.6s"/>
+                <circle class="pcb-led" cx="96" cy="204" r="3" fill="#c850ff" style="animation-delay:.8s"/>
+                <circle class="pcb-led" cx="96" cy="220" r="3" fill="#c850ff" style="animation-delay:1s"/>
+                <circle class="pcb-led" cx="96" cy="236" r="3" fill="#c850ff" style="animation-delay:1.2s"/>
+
+                <circle class="pcb-led pcb-led-amber" cx="44" cy="74" r="2" fill="#ffb020" style="animation-delay:0s"/>
+
+                <rect x="80" y="134" width="10" height="12" rx="1.5" fill="#1a1a1a" stroke="#333" stroke-width=".6"/>
+
+                <path class="pcb-trace" d="M54 44 v8 a6 6 0 0 0 6 6 h8" stroke="#ffb020" stroke-width=".5" fill="none" opacity=".25" style="animation-delay:0s"/>
+                <path class="pcb-trace" d="M64 44 v6 a6 6 0 0 0 6 6 h4" stroke="#ffb020" stroke-width=".5" fill="none" opacity=".25" style="animation-delay:.12s"/>
+
+                <path class="pcb-trace" d="M50 104 v4 a6 6 0 0 0 6 6 v4 a6 6 0 0 1 -6 6 v4" stroke="#c850ff" stroke-width=".5" fill="none" opacity=".3"/>
+                <path class="pcb-trace" d="M62 104 v2 a4 4 0 0 0 4 4 v6 a6 6 0 0 1 -6 6 v4 a6 6 0 0 0 6 6 v4" stroke="#c850ff" stroke-width=".45" fill="none" opacity=".25"/>
+                <path class="pcb-trace" d="M74 104 v6 a4 4 0 0 1 4 4 v14 a4 4 0 0 1 -4 4 h-4" stroke="#c850ff" stroke-width=".4" fill="none" opacity=".22"/>
+                <path class="pcb-trace" d="M86 104 v10 a4 4 0 0 1 4 4 v10" stroke="#c850ff" stroke-width=".35" fill="none" opacity=".2"/>
+
+                <path class="pcb-trace" d="M90 140 h-8 v2 a6 6 0 0 1 -6 6 h-6" stroke="#c850ff" stroke-width=".5" fill="none" opacity=".25"/>
+                <path class="pcb-trace" d="M90 156 h-12 v4 a4 4 0 0 1 -4 4 h-4" stroke="#c850ff" stroke-width=".45" fill="none" opacity=".22"/>
+                <path class="pcb-trace" d="M90 172 h-16 v2 a4 4 0 0 1 -4 4 h-4" stroke="#c850ff" stroke-width=".4" fill="none" opacity=".2"/>
+                <path class="pcb-trace" d="M90 188 h-14 v-2 a4 4 0 0 0 -4 -4 h-4" stroke="#c850ff" stroke-width=".35" fill="none" opacity=".18"/>
+                <path class="pcb-trace" d="M90 204 h-10 v-4 a4 4 0 0 0 -4 -4 h-8" stroke="#c850ff" stroke-width=".3" fill="none" opacity=".16"/>
+                <path class="pcb-trace" d="M90 220 h-8 v-6 a6 6 0 0 0 -6 -6 h-6" stroke="#c850ff" stroke-width=".3" fill="none" opacity=".14"/>
+                <path class="pcb-trace" d="M90 236 h-6 v-4 a4 4 0 0 0 -4 -4 h-10" stroke="#c850ff" stroke-width=".25" fill="none" opacity=".12"/>
+
+                <path class="pcb-trace" d="M54 130 v-4 a4 4 0 0 1 4 -4 h6" stroke="#555" stroke-width=".4" fill="none" opacity=".2"/>
+                <path class="pcb-trace" d="M58 138 v-8 a4 4 0 0 0 -4 -4 h-4" stroke="#555" stroke-width=".35" fill="none" opacity=".18"/>
+
+                <circle cx="62" cy="66" r="1.5" fill="none" stroke="#555" stroke-width=".4" opacity=".3"/>
+                <circle cx="62" cy="66" r=".6" fill="#555" opacity=".4"/>
+                <circle cx="78" cy="126" r="1.5" fill="none" stroke="#555" stroke-width=".4" opacity=".3"/>
+                <circle cx="78" cy="126" r=".6" fill="#555" opacity=".4"/>
+                <circle cx="48" cy="148" r="1.5" fill="none" stroke="#555" stroke-width=".4" opacity=".3"/>
+                <circle cx="48" cy="148" r=".6" fill="#555" opacity=".4"/>
+
+                <rect x="68" y="48" width="4" height="8" rx=".5" fill="#1a1a1a" stroke="#2a2a2a" stroke-width=".5"/>
+                <rect x="52" y="250" width="6" height="4" rx=".5" fill="#1a1a1a" stroke="#2a2a2a" stroke-width=".5"/>
+                <rect x="62" y="250" width="6" height="4" rx=".5" fill="#1a1a1a" stroke="#2a2a2a" stroke-width=".5"/>
+              </svg>
+              <div class="pcb-glow"></div>
+            </div>
+            <div class="pcb-specs">
+              <div class="pcb-spec">
+                <span class="pcb-spec-label">MCU</span>
+                <span class="pcb-spec-value">RP2040</span>
+              </div>
+              <div class="pcb-spec">
+                <span class="pcb-spec-label">USB</span>
+                <span class="pcb-spec-value">USB-C</span>
+              </div>
+            </div>
+            <div class="pcb-status">
+              <span class="pcb-status-dot"></span>
+              <span class="pcb-status-text">Placeholder — 3D model coming soon</span>
+            </div>
           </div>
         </div>
       </div>

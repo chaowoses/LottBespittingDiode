@@ -171,6 +171,93 @@ body::after {
 .tab-placeholder i { font-size: 2rem; color: var(--ir-dim); display: block; }
 .tab-placeholder .hint { font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; opacity: .6; }
 
+@keyframes trace-pulse {
+  0%, 100% { opacity: .15; }
+  50% { opacity: .6; }
+}
+@keyframes led-blink-pcb {
+  0%, 100% { opacity: .4; }
+  50% { opacity: 1; }
+}
+@keyframes pcb-dot-pulse {
+  0%, 100% { box-shadow: 0 0 4px #c850ff88; }
+  50% { box-shadow: 0 0 12px #c850ff, 0 0 24px #c850ff44; }
+}
+@keyframes pcb-spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.pcb-placeholder {
+  height: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 1rem;
+  padding: 1rem; position: relative; overflow: hidden;
+  background: rgba(0,0,0,.35);
+}
+
+.pcb-board {
+  position: relative; width: 140px; height: 280px;
+  flex-shrink: 0;
+}
+.pcb-svg {
+  width: 100%; height: 100%; display: block;
+  filter: drop-shadow(0 0 20px rgba(200,80,255,.08));
+}
+.pcb-board-shape { animation: trace-pulse 4s ease-in-out infinite; }
+.pcb-trace { animation: trace-pulse 3s ease-in-out infinite; }
+.pcb-led { animation: led-blink-pcb 2s ease-in-out infinite; }
+.pcb-led-amber { filter: drop-shadow(0 0 4px #ffb020); }
+.pcb-chip {
+  transition: all .3s ease;
+  animation: trace-pulse 5s ease-in-out infinite;
+}
+.pcb-chip-core { fill: #141414; }
+.pcb-chip-label { font-family: 'Share Tech Mono', monospace; }
+
+.pcb-glow {
+  position: absolute; inset: -30px;
+  background: radial-gradient(circle at 50% 50%, rgba(200,80,255,.04) 0%, transparent 70%);
+  pointer-events: none;
+  animation: trace-pulse 4s ease-in-out infinite;
+}
+
+.pcb-specs {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px;
+  width: 100%; max-width: 280px;
+}
+.pcb-spec {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.pcb-spec-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .6rem; text-transform: uppercase;
+  letter-spacing: .12em; color: var(--muted);
+}
+.pcb-spec-value {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .7rem; color: var(--white);
+  font-weight: 500;
+}
+
+.pcb-status {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
+  background: rgba(200,80,255,.12);
+  border: 1px solid var(--ir);
+  border-radius: 20px;
+}
+.pcb-status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--ir);
+  animation: pcb-dot-pulse 1.8s ease-in-out infinite;
+}
+.pcb-status-text {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .65rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ir);
+}
+
 kicanvas-embed { display: block; width: 100%; height: 100%; }
 .sch-toolbar {
   display: flex; align-items: center; gap: 6px;
