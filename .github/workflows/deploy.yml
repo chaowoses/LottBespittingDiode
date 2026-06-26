@@ -6,6 +6,7 @@ on:
     paths:
       - 'app/**'
       - 'hardware/*.kicad_sch'
+      - 'hardware/prototype/*.kicad_sch'
       - '.github/workflows/deploy.yml'
 
 permissions:
@@ -27,8 +28,9 @@ jobs:
           # Sync app content
           cp -r app/* public/
           # Sync hardware content
-          mkdir -p public/hardware
+          mkdir -p public/hardware/prototype
           cp hardware/*.kicad_sch public/hardware/
+          cp hardware/prototype/*.kicad_sch public/hardware/prototype/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

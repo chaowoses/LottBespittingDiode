@@ -82,6 +82,7 @@ document.querySelectorAll('.panel-tab').forEach(btn => {
     'power.kicad_sch',
     'flash.kicad_sch',
     'usb.kicad_sch',
+    'infared.kicad_sch',
     'prototype/prototype.kicad_sch'
   ];
   var prefix = '../hardware/';
