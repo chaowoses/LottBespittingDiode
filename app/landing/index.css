@@ -854,3 +854,35 @@ footer {
     padding: .75rem;
   }
 }
+
+/* ─── GIT HISTORY TAB ────────────────────────────────── */
+.git-loading {
+  display: flex; align-items: center; justify-content: center;
+  height: 100%; min-height: 120px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .7rem; letter-spacing: .12em; color: var(--muted);
+}
+.git-commit {
+  display: grid; grid-template-columns: auto 1fr auto;
+  gap: .5rem; align-items: center;
+  padding: .45rem .5rem; border-bottom: 1px solid var(--border);
+  text-decoration: none; color: inherit;
+  transition: background .15s;
+}
+.git-commit:last-child { border-bottom: none; }
+.git-commit:hover { background: rgba(200,80,255,.05); }
+.git-sha {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .65rem; letter-spacing: .04em; color: var(--ir);
+  flex-shrink: 0;
+}
+.git-msg {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .7rem; color: var(--white);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.git-date {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .6rem; color: var(--muted); white-space: nowrap;
+  flex-shrink: 0;
+}

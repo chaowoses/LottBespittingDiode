@@ -30,6 +30,43 @@ document.querySelectorAll('.panel-tab').forEach(btn => {
   });
 });
 
+// ─── GIT HISTORY TAB ──
+(function loadGitHistory() {
+  var fetched = false;
+  document.querySelectorAll('.panel-tab').forEach(function(btn) {
+    if (btn.dataset.tab !== 'git') return;
+    btn.addEventListener('click', function() {
+      if (fetched) return;
+      fetched = true;
+      var body = document.getElementById('git-history-list');
+      if (!body) return;
+      fetch('https://api.github.com/repos/chaowoses/LottBespittingDiode/commits?per_page=40')
+        .then(function(r) { return r.json(); })
+        .then(function(commits) {
+          if (!Array.isArray(commits)) {
+            body.innerHTML = '<div class="git-loading">Failed to load commits.</div>';
+            return;
+          }
+          body.innerHTML = commits.map(function(c) {
+            var sha = c.sha.slice(0, 7);
+            var msg = c.commit.message.split('\n')[0]
+              .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            var date = new Date(c.commit.author.date);
+            var dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            return '<a class="git-commit" href="' + c.html_url + '" target="_blank" rel="noopener">'
+              + '<span class="git-sha">' + sha + '</span>'
+              + '<span class="git-msg">' + msg + '</span>'
+              + '<span class="git-date">' + dateStr + '</span>'
+              + '</a>';
+          }).join('');
+        })
+        .catch(function() {
+          body.innerHTML = '<div class="git-loading">Failed to load commits.</div>';
+        });
+    });
+  });
+})();
+
 // ─── KICANVAS SCHEMATIC VIEWER ──
 (function loadSchematic() {
   var ph = document.getElementById('sch-placeholder');

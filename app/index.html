@@ -55,6 +55,7 @@
         <button class="panel-tab active" data-tab="bom">BOM</button>
         <button class="panel-tab" data-tab="schematic">Schematic</button>
         <button class="panel-tab" data-tab="pcb">PCB 3D</button>
+        <button class="panel-tab" data-tab="git">Commits</button>
       </div>
       <div class="panel-content">
         <div id="tab-bom" class="tab-content active">
@@ -67,7 +68,7 @@
               <tr><td class="bom-ref">C15</td><td class="bom-val">22uF</td><td>1</td></tr>
               <tr><td class="bom-ref">C16</td><td class="bom-val">100nF</td><td>1</td></tr>
               <tr><td class="bom-ref">C19, C20</td><td class="bom-val">1u</td><td>2</td></tr>
-              <tr><td class="bom-ref">D1–D7</td><td class="bom-val">IN-S126ESGHIR</td><td>7</td></tr>
+              <tr><td class="bom-ref">D1–D8</td><td class="bom-val">IN-S126ESGHIR</td><td>8</td></tr>
               <tr><td class="bom-ref">J1</td><td class="bom-val">Conn_01x03_Pin</td><td>1</td></tr>
               <tr><td class="bom-ref">J2</td><td class="bom-val">USB4155-03-C_REVA</td><td>1</td></tr>
               <tr><td class="bom-ref">R3, R13</td><td class="bom-val">5.1k</td><td>2</td></tr>
@@ -103,166 +104,10 @@
         </div>
         <div id="tab-pcb" class="tab-content">
           <div class="pcb-placeholder">
-            <div class="pcb-board">
-              <svg class="pcb-svg" viewBox="0 0 140 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-                <!-- Board: main body + USB-C plug tab at bottom -->
-                <path class="pcb-board-shape"
-                  d="M28 14 H112 A8 8 0 0 1 120 22 V222 H95 V258 A4 4 0 0 1 91 262 H49 A4 4 0 0 0 45 258 V222 H20 V22 A8 8 0 0 1 28 14 Z"
-                  stroke="#1a5c2a" stroke-width="2" fill="#060f07"/>
-
-                <!-- USB-C connector slot -->
-                <rect x="53" y="230" width="34" height="14" rx="7"
-                  fill="none" stroke="#1a3a1a" stroke-width="1"/>
-                <rect x="59" y="234" width="22" height="6" rx="1.5"
-                  fill="#0d1a0d" stroke="#222" stroke-width=".5"/>
-
-                <!-- Mounting holes (top corners) -->
-                <circle cx="32" cy="26" r="3.5" fill="none" stroke="#1a5c2a" stroke-width=".8" opacity=".6"/>
-                <circle cx="32" cy="26" r="1.4" fill="#030806" opacity=".9"/>
-                <circle cx="108" cy="26" r="3.5" fill="none" stroke="#1a5c2a" stroke-width=".8" opacity=".6"/>
-                <circle cx="108" cy="26" r="1.4" fill="#030806" opacity=".9"/>
-
-                <!-- IR LED pads (D1–D7) — SMD footprints at top of board -->
-                <rect x="26" y="34" width="10" height="14" rx="1.2" fill="#0e1a0e" stroke="#1e3a1e" stroke-width=".7"/>
-                <rect x="38" y="34" width="10" height="14" rx="1.2" fill="#0e1a0e" stroke="#1e3a1e" stroke-width=".7"/>
-                <rect x="50" y="34" width="10" height="14" rx="1.2" fill="#0e1a0e" stroke="#1e3a1e" stroke-width=".7"/>
-                <rect x="62" y="34" width="10" height="14" rx="1.2" fill="#0e1a0e" stroke="#1e3a1e" stroke-width=".7"/>
-                <rect x="74" y="34" width="10" height="14" rx="1.2" fill="#0e1a0e" stroke="#1e3a1e" stroke-width=".7"/>
-                <rect x="86" y="34" width="10" height="14" rx="1.2" fill="#0e1a0e" stroke="#1e3a1e" stroke-width=".7"/>
-                <rect x="98" y="34" width="10" height="14" rx="1.2" fill="#0e1a0e" stroke="#1e3a1e" stroke-width=".7"/>
-
-                <!-- 7 IR LED emitters (IN-S126ESGHIR) -->
-                <circle class="pcb-led" cx="31" cy="41" r="3.5" fill="#c850ff" style="animation-delay:0s"/>
-                <circle class="pcb-led" cx="43" cy="41" r="3.5" fill="#c850ff" style="animation-delay:.18s"/>
-                <circle class="pcb-led" cx="55" cy="41" r="3.5" fill="#c850ff" style="animation-delay:.36s"/>
-                <circle class="pcb-led" cx="67" cy="41" r="3.5" fill="#c850ff" style="animation-delay:.54s"/>
-                <circle class="pcb-led" cx="79" cy="41" r="3.5" fill="#c850ff" style="animation-delay:.72s"/>
-                <circle class="pcb-led" cx="91" cy="41" r="3.5" fill="#c850ff" style="animation-delay:.9s"/>
-                <circle class="pcb-led" cx="103" cy="41" r="3.5" fill="#c850ff" style="animation-delay:1.08s"/>
-
-                <!-- IR signal traces: RP2040 top pins → LED pads (L-routed, fanned out) -->
-                <path class="pcb-trace" d="M50 97 V75 H31 V48" stroke="#c850ff" stroke-width=".5" fill="none" opacity=".28" style="animation-delay:0s"/>
-                <path class="pcb-trace" d="M56 97 V70 H43 V48" stroke="#c850ff" stroke-width=".5" fill="none" opacity=".28" style="animation-delay:.18s"/>
-                <path class="pcb-trace" d="M62 97 V65 H55 V48" stroke="#c850ff" stroke-width=".5" fill="none" opacity=".28" style="animation-delay:.36s"/>
-                <path class="pcb-trace" d="M68 97 V48" stroke="#c850ff" stroke-width=".5" fill="none" opacity=".28" style="animation-delay:.54s"/>
-                <path class="pcb-trace" d="M74 97 V65 H79 V48" stroke="#c850ff" stroke-width=".5" fill="none" opacity=".28" style="animation-delay:.72s"/>
-                <path class="pcb-trace" d="M80 97 V70 H91 V48" stroke="#c850ff" stroke-width=".5" fill="none" opacity=".28" style="animation-delay:.9s"/>
-                <path class="pcb-trace" d="M86 97 V75 H103 V48" stroke="#c850ff" stroke-width=".5" fill="none" opacity=".28" style="animation-delay:1.08s"/>
-
-                <!-- RP2040 (U1) — QFN-56 -->
-                <rect class="pcb-chip" x="44" y="100" width="52" height="52" rx="2" fill="#111" stroke="#1e3a1e" stroke-width="1.2"/>
-                <rect class="pcb-chip-core" x="50" y="106" width="40" height="40" rx="1" fill="#141414"/>
-                <!-- Pin-1 chamfer indicator -->
-                <path d="M44 102 L46 100 H44 Z" fill="#1a5c2a" opacity=".7"/>
-                <text class="pcb-chip-label" x="70" y="125" text-anchor="middle" fill="#484848" font-size="5.5" font-family="monospace" font-weight="600">RP2040</text>
-                <text x="70" y="134" text-anchor="middle" fill="#2a2a2a" font-size="3" font-family="monospace">chaowoses</text>
-
-                <!-- RP2040 pin pads: top (7) -->
-                <rect x="49" y="97" width="4" height="3" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="55" y="97" width="4" height="3" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="61" y="97" width="4" height="3" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="67" y="97" width="4" height="3" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="73" y="97" width="4" height="3" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="79" y="97" width="4" height="3" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="85" y="97" width="4" height="3" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <!-- RP2040 pin pads: bottom (7) -->
-                <rect x="49" y="150" width="4" height="3" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="55" y="150" width="4" height="3" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="61" y="150" width="4" height="3" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="67" y="150" width="4" height="3" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="73" y="150" width="4" height="3" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="79" y="150" width="4" height="3" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="85" y="150" width="4" height="3" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <!-- RP2040 pin pads: left (7) -->
-                <rect x="41" y="105" width="3" height="4" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="41" y="111" width="3" height="4" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="41" y="117" width="3" height="4" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="41" y="123" width="3" height="4" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="41" y="129" width="3" height="4" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="41" y="135" width="3" height="4" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="41" y="141" width="3" height="4" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <!-- RP2040 pin pads: right (7) -->
-                <rect x="96" y="105" width="3" height="4" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="96" y="111" width="3" height="4" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="96" y="117" width="3" height="4" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="96" y="123" width="3" height="4" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="96" y="129" width="3" height="4" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="96" y="135" width="3" height="4" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-                <rect x="96" y="141" width="3" height="4" rx=".4" fill="#1a2e1a" stroke="#2a3a2a" stroke-width=".3"/>
-
-                <!-- Flash (U5) W25Q128 — SOIC-8 -->
-                <rect x="24" y="108" width="16" height="12" rx="1" fill="#111" stroke="#1e3a1e" stroke-width=".8"/>
-                <text x="32" y="115.5" text-anchor="middle" fill="#282828" font-size="2.8" font-family="monospace">W25Q128</text>
-                <circle cx="25.5" cy="109.5" r=".8" fill="#2a5a2a" opacity=".7"/>
-                <rect x="22" y="110" width="2" height="2.5" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-                <rect x="22" y="114" width="2" height="2.5" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-                <rect x="40" y="110" width="2" height="2.5" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-                <rect x="40" y="114" width="2" height="2.5" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-
-                <!-- MOSFET gate driver — SOT-23 -->
-                <rect x="103" y="118" width="12" height="14" rx="1" fill="#111" stroke="#1e3a1e" stroke-width=".8"/>
-                <rect x="105" y="132" width="3" height="3.5" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-                <rect x="109.5" y="132" width="3" height="3.5" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-                <rect x="107" y="114.5" width="3" height="3.5" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-
-                <!-- Crystal Y1 12MHz -->
-                <rect x="103" y="155" width="16" height="7" rx="2" fill="#111" stroke="#333" stroke-width=".8"/>
-                <text x="111" y="160" text-anchor="middle" fill="#282828" font-size="2.4" font-family="monospace">12MHZ</text>
-                <rect x="101" y="157" width="2" height="3" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-                <rect x="119" y="157" width="2" height="3" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-
-                <!-- Power reg TPSM828214SILR (U4) -->
-                <rect x="46" y="168" width="22" height="18" rx="1.5" fill="#111" stroke="#1e3a1e" stroke-width=".8"/>
-                <text x="57" y="177.5" text-anchor="middle" fill="#282828" font-size="2.8" font-family="monospace">TPSM</text>
-                <text x="57" y="183" text-anchor="middle" fill="#242424" font-size="2.4" font-family="monospace">828214</text>
-                <rect x="44" y="170" width="2" height="3" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-                <rect x="44" y="176" width="2" height="3" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-                <rect x="44" y="182" width="2" height="3" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-                <rect x="68" y="170" width="2" height="3" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-                <rect x="68" y="176" width="2" height="3" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-                <rect x="68" y="182" width="2" height="3" rx=".3" fill="#1a2e1a" stroke="#222" stroke-width=".2"/>
-
-                <!-- BOOTSEL button (SW2) -->
-                <rect x="76" y="170" width="14" height="10" rx="1.2" fill="#1a1a1a" stroke="#2a3a2a" stroke-width=".7"/>
-                <rect x="78" y="172" width="10" height="6" rx=".8" fill="#111" stroke="#222" stroke-width=".4"/>
-                <text x="83" y="176.2" text-anchor="middle" fill="#2a2a2a" font-size="2" font-family="monospace">BOOT</text>
-
-                <!-- Status LED (amber) — GP16 -->
-                <rect x="24" y="128" width="12" height="8" rx="1" fill="#0e1a0e" stroke="#1e3a1e" stroke-width=".7"/>
-                <circle class="pcb-led pcb-led-amber" cx="30" cy="132" r="2.8" fill="#ffb020" style="animation-delay:0s"/>
-
-                <!-- Decoupling caps (0402) near ICs -->
-                <rect x="25" y="98" width="7" height="4" rx=".5" fill="#0e1a0e" stroke="#1e2e1e" stroke-width=".5"/>
-                <rect x="25" y="104" width="7" height="4" rx=".5" fill="#0e1a0e" stroke="#1e2e1e" stroke-width=".5"/>
-                <rect x="108" y="105" width="7" height="4" rx=".5" fill="#0e1a0e" stroke="#1e2e1e" stroke-width=".5"/>
-                <rect x="108" y="111" width="7" height="4" rx=".5" fill="#0e1a0e" stroke="#1e2e1e" stroke-width=".5"/>
-                <rect x="108" y="148" width="7" height="4" rx=".5" fill="#0e1a0e" stroke="#1e2e1e" stroke-width=".5"/>
-                <rect x="24" y="158" width="7" height="4" rx=".5" fill="#0e1a0e" stroke="#1e2e1e" stroke-width=".5"/>
-                <rect x="24" y="164" width="7" height="4" rx=".5" fill="#0e1a0e" stroke="#1e2e1e" stroke-width=".5"/>
-
-                <!-- USB D+/D− traces (amber) from plug to RP2040 -->
-                <path class="pcb-trace" d="M63 222 V200 H58 V153" stroke="#ffb020" stroke-width=".5" fill="none" opacity=".2" style="animation-delay:.1s"/>
-                <path class="pcb-trace" d="M77 222 V200 H82 V153" stroke="#ffb020" stroke-width=".5" fill="none" opacity=".2" style="animation-delay:.22s"/>
-
-                <!-- Power rail (amber) from plug to regulator -->
-                <path class="pcb-trace" d="M65 222 V192 H57 V186" stroke="#ffb020" stroke-width=".6" fill="none" opacity=".18" style="animation-delay:0s"/>
-
-                <!-- IR drive trace: MOSFET → LED power rail -->
-                <path class="pcb-trace" d="M109 118 V90 H112 V56 H103 V48" stroke="#c850ff" stroke-width=".45" fill="none" opacity=".2" style="animation-delay:.3s"/>
-
-                <!-- Ground plane vias -->
-                <circle cx="35" cy="86" r="2.2" fill="none" stroke="#1a5c2a" stroke-width=".7" opacity=".5"/>
-                <circle cx="35" cy="86" r=".9" fill="#030806" opacity=".8"/>
-                <circle cx="105" cy="86" r="2.2" fill="none" stroke="#1a5c2a" stroke-width=".7" opacity=".5"/>
-                <circle cx="105" cy="86" r=".9" fill="#030806" opacity=".8"/>
-                <circle cx="35" cy="200" r="2.2" fill="none" stroke="#1a5c2a" stroke-width=".7" opacity=".5"/>
-                <circle cx="35" cy="200" r=".9" fill="#030806" opacity=".8"/>
-                <circle cx="105" cy="200" r="2.2" fill="none" stroke="#1a5c2a" stroke-width=".7" opacity=".5"/>
-                <circle cx="105" cy="200" r=".9" fill="#030806" opacity=".8"/>
-
-              </svg>
-              <div class="pcb-glow"></div>
+            <div class="tab-placeholder" style="flex:0;width:100%;">
+              <i class="ti ti-clock-pause"></i>
+              <div>Nothing here yet...</div>
+              <div class="hint">Layout under development</div>
             </div>
             <div class="pcb-specs">
               <div class="pcb-spec">
@@ -270,12 +115,12 @@
                 <span class="pcb-spec-value">RP2040</span>
               </div>
               <div class="pcb-spec">
-                <span class="pcb-spec-label">USB</span>
-                <span class="pcb-spec-value">USB-C</span>
+                <span class="pcb-spec-label">Connector</span>
+                <span class="pcb-spec-value">USB-C Male</span>
               </div>
               <div class="pcb-spec">
                 <span class="pcb-spec-label">IR</span>
-                <span class="pcb-spec-value">7× LED</span>
+                <span class="pcb-spec-value">8× LED</span>
               </div>
               <div class="pcb-spec">
                 <span class="pcb-spec-label">Carrier</span>
@@ -284,8 +129,13 @@
             </div>
             <div class="pcb-status">
               <span class="pcb-status-dot"></span>
-              <span class="pcb-status-text">Placeholder — 3D model coming soon</span>
+              <span class="pcb-status-text">Under Development</span>
             </div>
+          </div>
+        </div>
+        <div id="tab-git" class="tab-content">
+          <div id="git-history-list" class="tab-body">
+            <div class="git-loading">Loading commits…</div>
           </div>
         </div>
       </div>
