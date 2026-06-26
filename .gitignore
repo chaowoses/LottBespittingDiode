@@ -83,3 +83,6 @@ $RECYCLE.BIN/
 *.lnk
 
 *.lck
+
+# Other
+/ref/docs/claude_docs/
