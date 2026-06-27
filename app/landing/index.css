@@ -685,6 +685,7 @@ footer {
 /* ─── RESPONSIVE ─────────────────────────────────────── */
 @media (max-width: 1050px) {
   .hero-inner { flex-direction: column; }
+  .hero-text { width: 100%; }
   .hero-panel { width: 100%; margin-top: 2rem; }
   .panel-content { height: 280px; }
 }
@@ -799,6 +800,8 @@ footer {
     font-size: .65rem;
     padding: 0 2rem;
   }
+  .pcb-placeholder { gap: .5rem; }
+  .pcb-specs { gap: 4px 10px; }
 }
 
 @media (max-width: 480px) {
@@ -853,6 +856,11 @@ footer {
     font-size: .65rem;
     padding: .75rem;
   }
+  .pcb-placeholder { gap: .35rem; padding: .6rem; }
+  .pcb-spec-label { font-size: .55rem; }
+  .pcb-spec-value { font-size: .6rem; }
+  .pcb-status { padding: 4px 10px; }
+  .pcb-status-text { font-size: .6rem; }
 }
 
 /* ─── GIT HISTORY TAB ────────────────────────────────── */
