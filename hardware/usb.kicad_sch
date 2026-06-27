@@ -4,6 +4,12 @@
 	(generator_version "10.0")
 	(uuid "3e85a906-2f92-4379-9bf1-f7c1a8bb4fd2")
 	(paper "A4")
+	(title_block
+		(title "LBD (Lott-Bespitting Diode)")
+		(date "2026-06-27")
+		(rev "v1.0")
+		(company "Chaos")
+	)
 	(lib_symbols
 		(symbol "Device:R_US"
 			(pin_numbers
