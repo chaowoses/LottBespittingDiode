@@ -2036,7 +2036,7 @@
 				)
 			)
 		)
-		(property "Value" "USB4155-03-C_REVA"
+		(property "Value" "USB4155-03-C"
 			(at 137.16 71.12 0)
 			(show_name no)
 			(do_not_autoplace no)
