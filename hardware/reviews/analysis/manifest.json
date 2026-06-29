@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "project": "LBD.kicad_pro",
+  "current": "2026-06-28_2105",
+  "runs": {
+    "2026-06-28_2105": {
+      "source_hashes": {
+        "LBD.kicad_sch": "sha256:46ee442b2d51626576e9a2454afc0974ba88e9633973fa6bcacdde8a21d58e81"
+      },
+      "outputs": {
+        "schematic": "schematic.json"
+      },
+      "scripts": {
+        "schematic": "analyze_schematic.py LBD.kicad_sch"
+      },
+      "generated": "2026-06-28T21:05:26+00:00",
+      "pinned": false
+    }
+  }
+}
