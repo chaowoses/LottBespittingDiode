@@ -45,6 +45,8 @@ CircuitPython (not MicroPython) running on RP2040. Listens on USB serial at 1152
 
 KiCad project with five hierarchical schematics: main board, `power.kicad_sch`, `flash.kicad_sch`, `usb.kicad_sch`, and a breadboard `prototype/prototype.kicad_sch`. All custom symbols and footprints live in `hardware/LBD_Library/` — do not use external library paths.
 
+Design reviews and schematic analysis outputs live in `hardware/reviews/`. Datasheets for all components are in `ref/docs/`.
+
 ### CI/CD
 
 GitHub Actions deploys to GitHub Pages on push to `main` when `app/**`, `hardware/*.kicad_sch`, or the workflow file changes. The pipeline runs `generate_bom.py`, commits the updated BOM, then deploys via `peaceiris/actions-gh-pages`.
