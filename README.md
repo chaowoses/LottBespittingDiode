@@ -54,8 +54,11 @@ hardware/             # KiCad hardware design
   power.kicad_sch     # Power regulation (TPSM828214SILR)
   flash.kicad_sch     # External flash (W25Q128)
   usb.kicad_sch       # USB-C (USB4155)
-  prototype/prototype.kicad_sch # Breadboard/perfboard prototype variant
+  infared.kicad_sch   # IR LED output stage
   LBD.kicad_pcb       # PCB layout
+  LBD_Library/        # Custom KiCad symbols and footprints
+  prototype/          # Breadboard/perfboard prototype variant
+  reviews/            # Design reviews and schematic analysis outputs
 
 scripts/              # Utility scripts
   generate_bom.py     # Auto-generates BOM HTML from KiCad schematics
