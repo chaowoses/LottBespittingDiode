@@ -3267,7 +3267,7 @@
 				)
 			)
 		)
-		(property "Value" "15pF"
+		(property "Value" "15p"
 			(at 48.2663 120.65 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4089,7 +4089,7 @@
 				)
 			)
 		)
-		(property "Value" "15pF"
+		(property "Value" "15p"
 			(at 48.2663 110.49 90)
 			(show_name no)
 			(do_not_autoplace no)

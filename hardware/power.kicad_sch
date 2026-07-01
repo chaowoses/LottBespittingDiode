@@ -2337,7 +2337,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22uF"
+		(property "Value" "22u"
 			(at 177.8 97.7962 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4565,7 +4565,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "4.7uF"
+		(property "Value" "4.7u"
 			(at 101.6 97.7962 0)
 			(show_name no)
 			(do_not_autoplace no)
