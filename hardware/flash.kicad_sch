@@ -1773,7 +1773,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_SMD:SW_SPST_B3U-1000P"
 			(at 102.87 92.71 0)
 			(hide yes)
 			(show_name no)
