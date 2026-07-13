@@ -1373,7 +1373,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0201_0603Metric"
 			(at 114.046 98.806 90)
 			(hide yes)
 			(show_name no)
@@ -1455,7 +1455,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
 			(at 195.58 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -1615,7 +1615,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0201_0603Metric"
 			(at 128.524 87.376 90)
 			(hide yes)
 			(show_name no)
