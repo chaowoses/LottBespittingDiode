@@ -2087,7 +2087,7 @@
 				)
 			)
 		)
-		(property "Footprint" "W25Q128JVSIQ:SOIC127P790X216-8N"
+		(property "Footprint" "LBD_Footprints:W25Q128JVSIQ"
 			(at 158.75 105.41 0)
 			(hide yes)
 			(show_name no)
