@@ -2,7 +2,7 @@
 
 A high-intensity IR blaster built on the RP2040. Browser-native control over WebSerial, MOSFET-driven IR output, 38kHz NEC modulation. Fully open source.
 
-[Home Page](https://chaowoses.github.io/LottBespittingDiode/) &middot; [Controller](https://chaowoses.github.io/LottBespittingDiode/controller.html)
+[Home Page](https://chaowoses.dev/LottBespittingDiode/) &middot; [Controller](https://chaowoses.dev/LottBespittingDiode/controller.html)
 
 Named for Mrs. Lott, the worst teacher I ever had, and her classroom projector.
 
@@ -143,7 +143,7 @@ Copy the contents of `firmware/` onto the `CIRCUITPY` volume root:
 
 ### Step 4: Plug It In & Open the Controller
 
-Keep the device connected via USB, then open the [web controller](https://chaowoses.github.io/LottBespittingDiode/controller.html) in a Chromium-based browser. Click **Connect** to establish the WebSerial session.
+Keep the device connected via USB, then open the [web controller](https://chaowoses.dev/LottBespittingDiode/controller.html) in a Chromium-based browser. Click **Connect** to establish the WebSerial session.
 
 To run locally (required for development):
 
